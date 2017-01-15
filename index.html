@@ -9,6 +9,7 @@
     main { flex: 1 0 auto; margin-top: 1em; }
     footer { flex: none; margin-bottom: 1em; text-align: center; font-size: 80%; color: #888; }
     #logo { margin-top: 3em; text-align: center; }
+    a { color: blue; text-decoration: underline; }
     .repo-url { padding: 0 4em; }
   </style>
 </head>
@@ -17,12 +18,12 @@
   <main>
     <p>Source code and build instructions for dudubaby.org and its subdomains:</p>
     <p class="repo-url"><a href="https://github.com/dudubaby/source.dudubaby.org" target="_blank">https://github.com/dudubaby/source.dudubaby.org</a></p>
-    <p>Main production build, deployed at <a href="//dudubaby.org" target="_blank">dudubaby.org</a> (with local images and powered by Baidu Yunjiasu):</p>
+    <p>Main production build, deployed at <a href="//dudubaby.org" target="_blank">dudubaby.org</a> (with local images and routed through CloudFlare):</p>
     <p class="repo-url"><a href="https://github.com/dudubaby/dudubaby.org" target="_blank">https://github.com/dudubaby/dudubaby.org</a></p>
-    <p>Mainland China speed-up build (experimental), deployed at <a href="//cn.dudubaby.org" target="_blank">cn.dudubaby.org</a> (with sinaimg.cn images and powered by Baidu Yunjiasu):</p>
+    <p>Mainland China speed-up build, deployed at <a href="//cn.dudubaby.org" target="_blank">cn.dudubaby.org</a> (with sinaimg.cn images and also routed through CloudFlare):</p>
     <p class="repo-url"><a href="https://github.com/dudubaby/cn.dudubaby.org" target="_blank">https://github.com/dudubaby/cn.dudubaby.org</a></p>
-    <p>Global speed-up build (experimental), deployed at <a href="//us.dudubaby.org" target="_blank">us.dudubaby.org</a> (same as the main production build except HTTP traffic is not routed through Baidu Yunjiasu, which means pages and assets are directly served by GitHub's CDN, currently Fastly):</p>
-    <p class="repo-url"><a href="https://github.com/dudubaby/us.dudubaby.org" target="_blank">https://github.com/dudubaby/us.dudubaby.org</a></p>
+    <p>Preview and testing build, deployed at <a href="http://preview.dudubaby.org" target="_blank">preview.dudubaby.org</a> (served directly from GitHub's CDN, currently Fastly):</p>
+    <p class="repo-url"><a href="https://github.com/dudubaby/preview.dudubaby.org" target="_blank">https://github.com/dudubaby/preview.dudubaby.org</a></p>
   </main>
   <footer>&copy; 2016–2017 DuDuBaby.org</footer>
 </body>
