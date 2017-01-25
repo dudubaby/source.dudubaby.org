@@ -1,0 +1,24 @@
+{#- Note: set LAZYLOAD to True in globals -#}
+
+{%- from '_macros.html' import info_nav_bar, status_list with context -%}
+
+{%- set title -%}
+全部相关状态
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    {%- set info -%}
+    {{ statuses|length }}条相关状态
+    {%- endset %}
+    {{ info_nav_bar(info)|indent(4) }}
+    <hr>
+    {{ status_list(statuses)|indent(4) }}
+    {{ info_nav_bar(info, back_to_top=true)|indent(4) }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

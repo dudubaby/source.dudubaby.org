@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+import initdb
+from schema import Comment, Status
+
+IMAGELIST = 'images/images.txt'
+
+def images():
+    imlist = []
+    for status in Status.select():
+        imlist.extend(status.images.split())
+        if status.orig_images:
+            imlist.extend(status.orig_images.split())
+    for comment in Comment.select():
+        if comment.image:
+            imlist.append(comment.image)
+    return sorted(set(imlist))
+
+def main():
+    imlist = images()
+    print('Found %d images.' % len(imlist))
+    with open(IMAGELIST, 'w') as fp:
+        print('\n'.join(imlist), file=fp)
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,22 @@
+{%- from '_macros.html' import info_nav_bar, status_list -%}
+
+{%- set title -%}
+{{ year }}年{{ month }}月
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    {%- set info -%}
+    {{ statuses|length }}条相关状态
+    {%- endset -%}
+    {{ info_nav_bar(info, '首', '/2014/07', '上个月', prev_link, '下个月', next_link, '尾', '/2016/12', false)|indent(4) }}
+    <hr>
+    {{ status_list(statuses)|indent(4) }}
+    {{ info_nav_bar(info, '首', '/2014/07', '上个月', prev_link, '下个月', next_link, '尾', '/2016/12', true)|indent(4) }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

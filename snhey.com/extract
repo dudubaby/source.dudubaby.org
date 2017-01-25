@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+
+import collections
+import datetime
+import glob
+import logging
+import os
+import re
+import sys
+import urllib.parse
+
+import bs4
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path[:0] = [os.path.dirname(HERE)]
+
+import initdb
+import schema
+import shortlinks
+import weibo_emojis
+import weibo_photos
+from extractor_utils import *
+
+logging.basicConfig(format='[%(name)s] %(levelname)s: %(message)s')
+logger = logging.getLogger('extract')
+
+COMMENT_DATETIME = re.compile(r'^\((?P<year>\d{4})年(?P<month>\d{2})月(?P<day>\d{2})日'
+                              r'(?P<hour>\d{2})时(?P<minute>\d{2})分\)$', re.A)
+LARGE_IMAGE_URL = re.compile(r'^http://ww\d.sinaimg.cn/large/(?P<filename>\w+\.(jpg|gif))', re.A)
+LAST_LINK_IMAGE = re.compile(r'^(?P<body>.*?)(图片评论 )?'
+                             r'<a ([^>]* )'
+                             r'?href="(?P<image_url>http://ww\d.sinaimg.cn/large/[^"]+)" [^>]*>'
+                             r'[^<]+</a>$', re.DOTALL)
+PAGE_FILENAME = re.compile(r'^(?P<date>\d{8})-(?P<page>\d).html$', re.A)
+PROFILE_LINK = re.compile(r'^/Home/Profiles/(?P<handle>.*)$')
+STATUS_STATS = re.compile(r'^(?P<year>\d{4})年(?P<month>\d{2})月(?P<day>\d{2})日'
+                          r'(?P<hour>\d{2})时(?P<minute>\d{2})分，'
+                          r'转发：(?P<reposts>\d+)，评论：(?P<comments>\d+)$', re.A)
+WHITESPACE = re.compile(r'^\s*$')
+
+def child_tags_deque(tag):
+    child_tags = collections.deque()
+    for elem in tag.children:
+        if not isinstance(elem, bs4.element.NavigableString):
+            child_tags.append(elem)
+    return child_tags
+
+def transform_emojis(s):
+    soup = bs4.BeautifulSoup(s, 'html.parser')
+    for img in soup.find_all('img'):
+        # God knows what the heck the 'titile' attribute is...
+        if img.has_attr('titile'):
+            del img['titile']
+    return str(soup)
+
+def parse_last_image_link(s):
+    m = LAST_LINK_IMAGE.match(s)
+    if m:
+        body = m.group('body')
+        image = os.path.basename(m.group('image_url'))
+        return body, image
+    else:
+        return s, None
+
+def transform_status_text(s):
+    s = transform_at_mentions(s)
+    s = transform_tcn_shortlinks(s)
+    s = transform_emojis(s)
+    s = weibo_emojis.transform(s)  # Pick up unlinked emojis
+    s, url = parse_complete_status_link(s)
+    return s.strip(), url
+
+def transform_orig_status_text(s):
+    s = transform_at_mentions(s)
+    s = transform_tcn_shortlinks(s)
+    s = transform_emojis(s)
+    s = weibo_emojis.transform(s)  # Pick up unlinked emojis
+    s, url = parse_complete_status_link(s)
+    return s.strip(), url
+
+def transform_comment_text(s):
+    s = transform_at_mentions(s)
+    s = transform_tcn_shortlinks(s)
+    s = transform_emojis(s)
+    s = weibo_emojis.transform(s)  # Pick up unlinked emojis
+    s, image = parse_last_image_link(s)
+    return s.strip(), image
+
+def parse_content_tag(tag):
+    assert tag.name == 'p'
+    assert tag.get('class') == ['status-cotent']
+    children = collections.deque(tag.children)
+    is_comment = False
+    while True:
+        child = children.popleft()
+        if child.name == 'a':
+            m = PROFILE_LINK.match(child.get('href'))
+            poster = parse_handle(m.group('handle'))
+            break
+        else:
+            # Comments are led by a string with a bunch of &nbsp;s and two &gt;s
+            is_comment = True
+    if is_comment:
+        # Strip insignificant whitespace
+        children = collections.deque([elem for elem in children
+                                      if not isinstance(elem, bs4.element.NavigableString)
+                                      or not WHITESPACE.match(elem)])
+        # The entire comment body is contained in the next span tag.
+        content_tag = children.popleft()
+        assert content_tag.name == 'span'
+        body = join_soup_tags(content_tag.children).strip()
+        if body.startswith('：'):
+            body = body[1:].strip()
+        body, image = transform_comment_text(body)
+        # The next subelement is a span tag with the datetime of the comment.
+        datetime_tag = children.pop()
+        assert datetime_tag.name == 'span'
+        m = COMMENT_DATETIME.match(datetime_tag.text)
+        g = lambda name: int(m.group(name))  # Convert an re match group in m to int
+        comment_datetime = (datetime.datetime(g('year'), g('month'), g('day'),
+                                              g('hour'), g('minute')) +
+                            datetime.timedelta(hours=8))  # GMT -> CST = GMT + 8
+        complete_link = None
+        return poster, comment_datetime, body, image
+    else:
+        if children[0].name == 'wb:follow-button':
+            children.popleft()
+        comment_datetime = None
+        body = join_soup_tags(children).strip()
+        body, complete_link = transform_status_text(body)
+        return poster, comment_datetime, body, complete_link
+
+def parse_repost_tag(tag):
+    assert tag.name == 'div'
+    assert tag.get('class') == ['repost']
+    elems = child_tags_deque(tag)
+
+    # The first subelement p.repost-cotent contains the poster and body of the original post
+    content_tag = elems.popleft()
+    assert content_tag.name == 'p'
+    assert content_tag.get('class') == ['repost-cotent']
+    children = content_tag.children
+    # The first child should be a span with the author's handle
+    handle_tag = next(children)
+    assert handle_tag.name == 'span'
+    handle = handle_tag.text
+    orig_status_html = highlight_handle(handle) + join_soup_tags(children).strip()
+    orig_status_html, orig_complete_link = transform_orig_status_text(orig_status_html)
+
+    # The remaining elements should be images included in the original post
+    orig_status_images = []
+    for elem in elems:
+        assert elem.name == 'a'
+        image_url = elem.get('href')
+        m = LARGE_IMAGE_URL.match(image_url)
+        orig_status_images.append(m.group('filename'))
+
+    return orig_status_html, orig_complete_link, orig_status_images
+
+def parse(html):
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+    for status_tag in soup.find_all(class_='status'):
+        elems = child_tags_deque(status_tag)
+
+        # First subelement is an a tag with the poster's profile picture.
+        elems.popleft()
+
+        # Next subelement is a p.status-cotent tag containing the status text.
+        content_tag = elems.popleft()
+        status_author, _, status_html, status_complete_link = parse_content_tag(content_tag)
+
+        # The next subelements are attached images in a tags (optional).
+        images = []
+        while elems[0].name == 'a':
+            image_url = elems.popleft().get('href')
+            m = LARGE_IMAGE_URL.match(image_url)
+            images.append(m.group('filename'))
+
+        # The next option subelement is a div.repost tag containing the original status,
+        # if the current status is a repost.
+        if elems[0].name == 'div' and elems[0].get('class') == ['repost']:
+            repost_tag = elems.popleft()
+            orig_status_html, orig_status_complete_link, orig_status_images = parse_repost_tag(repost_tag)
+        else:
+            orig_status_html = orig_status_complete_link = orig_status_images = None
+
+        # The next subelement is a div with datetime, repost count, and comment count
+        stats_tag = elems.popleft()
+        assert stats_tag.name == 'div'
+        m = STATUS_STATS.match(stats_tag.text)
+        g = lambda name: int(m.group(name))  # Convert an re match group in m to int
+        status_datetime = (datetime.datetime(g('year'), g('month'), g('day'),
+                                             g('hour'), g('minute')) +
+                           datetime.timedelta(hours=8))  # GMT -> CST = GMT + 8
+        # We don't really care repost count and comment count...
+        # They must be pinned at a single snapshot and hence unreliable anyway.
+
+        # The next (and final) subelement is a div containing all comments from members.
+        comments = []
+        for elem in elems.popleft():
+            if isinstance(elem, bs4.element.NavigableString):
+                continue
+            # (commenter, comment_datetime, comment_html, comment_image)
+            comments.append(parse_content_tag(elem))
+        # Order comments by datetime (ascending instead of descending).
+        comments.reverse()
+
+        # There shouldn't be any subelements remaining at this point.
+        assert not elems
+
+        # By this point we have collected:
+        # - status_author: str
+        # - status_datetime: datetime.datetime
+        # - status_html: str
+        # - status_complete_link: Optional[str]
+        # - images: List[str]
+        # - orig_status_html: Optional[str]
+        # - orig_status_complete_link: Optional[str]
+        # - orig_status_images: Optional[List[str]]
+        # - comments: List[Tuple(commenter: str,
+        #                        comment_datetime: datetime.datetime,
+        #                        comment_html: str,
+        #                        comment_image: Optional[str])]
+        status_author_instance, _ = schema.Member.get_or_create(name=status_author)
+        if orig_status_html is None:
+            repost_args = {
+                'repost': False,
+            }
+        else:
+            repost_args = {
+                'repost': True,
+                'orig_author': None,
+                'orig_body': orig_status_html,
+                'orig_complete_link': orig_status_complete_link,
+                'orig_images': ' '.join(orig_status_images),
+            }
+        status_instance, created = schema.Status.get_or_create(
+            author=status_author_instance,
+            created_at=status_datetime,
+            body=status_html,
+            complete_link=status_complete_link,
+            images=' '.join(images),
+            **repost_args,
+        )
+        if not created:
+            # logger.warning(f'duplication detected: {status_author} at {status_datetime}: {status_html}')
+            continue
+        for commenter, comment_datetime, comment_html, comment_image in comments:
+            commenter_instance, _ = schema.Member.get_or_create(name=commenter)
+            comment_instance = schema.Comment.create(
+                status=status_instance,
+                commenter=commenter_instance,
+                created_at=comment_datetime,
+                body=comment_html,
+                image=comment_image,
+            )
+
+def pages():
+    pagesdir = os.path.join(HERE, 'pages')
+    filenames = [fn for fn in os.listdir(pagesdir) if PAGE_FILENAME.match(fn)]
+
+    def key(filename):
+        m = PAGE_FILENAME.match(filename)
+        # 20160901-2.html < 20160901-1.html < 20160911-2.html < 20160911-1.html
+        return m.group('date'), -int(m.group('page'))
+
+    filenames.sort(key=key, reverse=True)
+    return [os.path.join(pagesdir, fn) for fn in filenames]
+
+def main():
+    for page in pages():
+        print('Extracting from %s...' % os.path.basename(page))
+        with open(page, encoding='utf-8') as fp:
+            parse(fp.read())
+        shortlinks.persist()
+        weibo_photos.persist()
+
+if __name__ == '__main__':
+    main()

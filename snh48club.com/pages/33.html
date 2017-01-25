@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/js/iphone.js" type="text/javascript"></script>
+    
+    <title>
+	陈怡馨的动态_SNH48歌迷会|SNH48粉丝团|SNH48饭
+</title><meta name="keywords" content="SNH48，生男孩，SNH48粉丝，SNH48饭，SNH48歌迷会，最新动态，更新，照片，心情，微博，表演，行程安排，美少女" /><meta name="description" content=" SNH48成员微博内容，动态更新，情报大全。可以看某个成员的信息，或者分小组浏览该小组所有成员，看到成员的实时更新和最新照片，以及最新的行程透露，成员之间的互相关注和评论内容。" /><link href="/style2/header.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .content {
+            padding: 40px 0;
+        }
+
+        .left {
+            float: left;
+            width: 640px;
+        }
+
+        .h4 {
+            border-bottom: 1px solid #90D2F5;
+            margin-bottom: 15px;
+            height: 40px;
+            position: relative;
+        }
+
+            .h4 span, .h4 a, .h4 b {
+                display: block;
+                height: 40px;
+                line-height: 40px;
+                font-size: 16px;
+                float: left;
+                color: #90D2F5;
+            }
+
+            .h4 b {
+                padding: 0 8px;
+                font-family: "宋体";
+            }
+
+        .tab {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+            .tab a {
+                font-size: 16px;
+                font-weight: 400;
+                padding: 0 15px;
+                color: #333;
+            }
+
+                .tab a.dian, .tab a:hover {
+                    background: #90D2F5;
+                    color: #fff;
+                    -webkit-border-top-left-radius: 8px;
+                    -webkit-border-top-right-radius: 8px;
+                    -moz-border-radius-topleft: 8px;
+                    -moz-border-radius-topright: 8px;
+                    border-top-left-radius: 8px;
+                    border-top-right-radius: 8px;
+                }
+
+                .tab a.dw0.dian, .tab a.dw0:hover {
+                    background: #ffd700;
+                }
+
+                .tab a.dw1.dian, .tab a.dw1:hover {
+                    background: #90D2F5;
+                    color: #fff;
+                }
+
+                .tab a.dw2.dian, .tab a.dw2:hover {
+                    background: #9fbf40;
+                    color: #fff;
+                }
+
+                .tab a.dw3.dian, .tab a.dw3:hover {
+                    background: #fd2a6f;
+                    color: #fff;
+                }
+
+        .weibo {
+            padding: 20px;
+        }
+
+            .weibo .tx {
+                width: 50px;
+                float: left;
+            }
+
+            .weibo .text {
+                margin-left: 65px;
+                _margin-left: 62px;
+                _zoom: 1;
+            }
+
+            .weibo .imgs {
+                margin-right: -20px;
+                _zoom: 1;
+            }
+
+
+            .weibo .name a {
+                color: #00b6de;
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 16px;
+            }
+             .weibo .name  em{ font-size: 12px;padding-left: 5px; color: #999}
+
+            .weibo .wb_text {
+                font-size: 16px;
+                line-height: 30px;
+                padding: 4px 0 4px;
+            }
+
+        .weibo_box {
+            border-bottom: 1px solid #e6e6e6;
+            padding-bottom: 10px;
+        }
+
+        .paginator {
+            padding-top: 15px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+            .paginator a {
+                display: inline-block;
+                height: 36px;
+                line-height: 36px;
+                background: #fff;
+                font-size: 16px;
+                color: #555555;
+                border: 1px solid #d8dadf;
+                text-align: center;
+                padding: 0 10px;
+            }
+
+                .paginator span, .paginator a:hover {
+                    display: inline-block;
+                    height: 36px;
+                    padding-top: -8px;
+                    line-height: 36px;
+                    font-size: 16px;
+                    background: #90D2F5;
+                    border: 1px solid #90D2F5;
+                    color: #fff;
+                    text-align: center;
+                    padding: 0 10px;
+                }
+
+        .center-block, .carrousel, .carrousel .wrapper {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        .gallery {
+            list-style: none;
+        }
+
+
+        .portrait {
+            float: left;
+            width: 33.33%;
+        }
+
+        .carrousel {
+            position: fixed;
+            background-color: rgba(10, 10, 10, 0.8);
+            display: none;
+            z-index: 998;
+        }
+
+            .carrousel .wrapper {
+                width: 600px;
+                height: 600px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align: center;
+                /*.loading{
+    color: #FFF;
+    font-size: 24px;
+    margin: 40% 40%;
+    display: none;
+  }*/
+            }
+
+                .carrousel .wrapper > img {
+                    max-width: 100%;
+                }
+
+        .close {
+            cursor: pointer;
+            color: #FFF;
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            font-size: 36px;
+        }
+
+            .close:hover {
+                font-size: 36px;
+                color: #DDD;
+            }
+
+        .entypo-cancel:before {
+            content: "\2715";
+        }
+
+        [class*="entypo-"]:before {
+            font-family: 'entypo', sans-serif;
+        }
+
+        .time {
+            color: #999;
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+            .time a {
+                float: right;
+                font-size: 12px;
+                color: #90D2F5;
+            }
+
+                .time a.pinglun {
+                    padding-right: 50px;
+                }
+
+        .gengx {
+            width: 320px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .imgs {
+            padding: 5px;
+        }
+
+            .imgs li {
+                width: 33.33%;
+                height: 120px;
+                float: left;
+            }
+
+                .imgs li a {
+                    padding: 5px;
+                    display: block;
+                }
+
+        a.video {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+            a.video p {
+                line-height: 30px;
+                font-size: 12px;
+            }
+
+        .imgsWidth {
+            width: 350px;
+        }
+
+        .app2 {
+            text-align: center;
+            font-size: 16px;
+            color: #f69;
+            padding-bottom: 20px;
+        }
+
+            .app2 a {
+                color: #00b6de;
+                text-decoration: underline;
+            }
+
+                .app2 a:hover {
+                    color: #43b3cb;
+                }
+
+        #box {
+            float: right;
+            position: relative;
+            width: 320px;
+        }
+
+        .div1 {
+            width: 320px;
+        }
+
+        .aa {
+            width: 300px;
+        }
+
+        .div2 {
+            position: fixed;
+            _position: absolute;
+            top: 0px;
+            z-index: 986;
+        }
+
+        .spanPrev, .spanNext {
+            display: block;
+            position: fixed;
+            width: 60px;
+            height: 46px;
+            top: 50%;
+            background: url(/images/page_button.png) 0 0 no-repeat;
+            cursor: pointer;
+            text-indent: -9999px;
+            z-index: 999;
+        }
+
+        .spanPrev {
+            left: 80px;
+            background-position: -35px 0;
+        }
+
+        .spanNext {
+            right: 80px;
+            background-position: -99px 0;
+        }
+
+        .spanPrev:hover {
+            background-position: -35px -47px;
+        }
+
+        .spanNext:hover {
+            background-position: -99px -47px;
+        }
+        /*微博评论*/
+        .weibopinglun {
+            background: #f2f2f5;
+            padding: 10px;
+        }
+
+        .list_li {
+            margin: 0 0 -1px;
+            padding: 5px 0 7px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-color: #d9d9d9;
+        }
+
+        .WB_face {
+            padding: 6px 0 0;
+            width: 30px;
+            height: 30px;
+            float: left;
+        }
+
+            .WB_face a, .WB_text a {
+                color: #00b6de;
+            }
+
+            .WB_face .WB_face img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .list_con {
+            margin: 0 0 0 40px;
+        }
+
+        .WB_text {
+            _width: 100%;
+            padding: 1px 0 3px;
+            overflow: hidden;
+            line-height: 23px;
+            word-wrap: break-word;
+        }
+
+        .S_txt2 {
+            color: #808080;
+            line-height: 16px;
+            display: inline-block;
+            letter-spacing: normal;
+            word-spacing: normal;
+            vertical-align: top;
+            font-size: 12px;
+        }
+
+        .wb_text a {
+            color: #00b6de;
+        }
+
+            .wb_text a:hover {
+                color: #0092b2;
+            }
+
+            .WB_face a, .WB_text a.cLZ {
+                color: #6f6f6f;
+            }
+        /**/
+        .nav_2 {
+            padding-bottom: 20px;
+        }
+
+            .nav_2 li {
+                float: left;
+            }
+
+
+                .nav_2 li a {
+                    display: block;
+                    width: 40px;
+                    height: 30px;
+                    padding: 0 5px;
+                    line-height: 30px;
+                    margin-left: 1px;
+                    font-size: 12px;
+                    text-align: center;
+                    color: #333;
+                    background: #f3f3f3;
+                    cursor: pointer;
+                }
+
+                .nav_2 li:first-child a {
+                    -webkit-border-top-left-radius: 4px;
+                    -moz-border-radius-topleft: 4px;
+                    border-top-left-radius: 4px;
+                    -webkit-border-bottom-left-radius: 4px;
+                    -moz-border-radius-bottomleft: 4px;
+                    border-bottom-left-radius: 4px;
+                }
+
+                .nav_2 li:last-child a {
+                    -webkit-border-top-right-radius: 4px;
+                    -moz-border-radius-topright: 4px;
+                    border-top-right-radius: 4px;
+                    -webkit-border-bottom-right-radius: 4px;
+                    -moz-border-radius-bottomright: 4px;
+                    border-bottom-right-radius: 4px;
+                }
+
+                .nav_2 li a.dian, .nav_2 li a:hover {
+                    background: #dfdfdf;
+                }
+    </style>
+</head>
+<body>
+
+    <form method="post" action="33?memberid=53&amp;page=33" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTQ2ODcyOTgxOA9kFgICAw9kFghmDxAPFgIeB1Zpc2libGVoZGRkZAIBDxYCHgtfIUl0ZW1Db3VudAIMFhhmD2QWAmYPFQ0CNTMvaW1hZ2VzL21lbWJlci9kYXlfMTYxMDMxLzIwMTYxMDMxMDgxODA0MTMwNy5qcGcCNTMJ6ZmI5oCh6aaoBVNOSDQ4A0hJSZ0C5LmF6L+d55qE5Ye65Y67546p5LqGIOi3n+Wkp+WutuS4gOi1t+W+iOW8gOW/gz/ouqvovrnpg73mmK/kuIDnvqTmuKnmmpbnmoTkurog6Jm954S25bmz5pe26K+d5LiN5aSaIOS9huaYr+W/g+mHjOaAu+aYr+iiq+WQhOenjeWQhOagt+eahOWwj+S6i+aEn+WKqOedgOOAguS4gOi1t+WQg+S6huaZmumkkOS5n+iBiuS6huW+iOS5heeahOWkqSDmnIDlkI7ov5jnnIvkuobnlLXlvbHjgIJ3d+WVii4u5YWF5aW955S15LqGPz/mg7Pmg7Pov5nlkajkuZ/mnInlpb3lpJrkuovopoHlv5nnmoQg5Yqg5rK577yBowU8ZGl2IGNsYXNzPSJwb3J0cmFpdCI+PGltZyBjbGFzcz0icGljIiBzcmM9Imh0dHA6Ly93dzMuc2luYWltZy5jbi90aHVtYjE4MC8wMDVIbDBEN2p3MWVuYXIyZ21yZXVqMzBoczBkY3dmby5qcGciIGRhdGEtc3JjLXdpZGU9Imh0dHA6Ly93dzMuc2luYWltZy5jbi9sYXJnZS8wMDVIbDBEN2p3MWVuYXIyZ21yZXVqMzBoczBkY3dmby5qcGciIGFsdD0i54K55Ye75p+l55yL5aSn5Zu+Ij48L2Rpdj48ZGl2IGNsYXNzPSJwb3J0cmFpdCI+PGltZyBjbGFzcz0icGljIiBzcmM9Imh0dHA6Ly93dzIuc2luYWltZy5jbi90aHVtYjE4MC8wMDVIbDBEN2p3MWVuYXIyaDg0aWFqMzBoczBkY3EzdC5qcGciIGRhdGEtc3JjLXdpZGU9Imh0dHA6Ly93dzIuc2luYWltZy5jbi9sYXJnZS8wMDVIbDBEN2p3MWVuYXIyaDg0aWFqMzBoczBkY3EzdC5qcGciIGFsdD0i54K55Ye75p+l55yL5aSn5Zu+Ij48L2Rpdj48ZGl2IGNsYXNzPSJwb3J0cmFpdCI+PGltZyBjbGFzcz0icGljIiBzcmM9Imh0dHA6Ly93dzQuc2luYWltZy5jbi90aHVtYjE4MC8wMDVIbDBEN2p3MWVuYXIyc2F5b3ZqMzB0eDBtdmdvZi5qcGciIGRhdGEtc3JjLXdpZGU9Imh0dHA6Ly93dzQuc2luYWltZy5jbi9sYXJnZS8wMDVIbDBEN2p3MWVuYXIyc2F5b3ZqMzB0eDBtdmdvZi5qcGciIGFsdD0i54K55Ye75p+l55yL5aSn5Zu+Ij48L2Rpdj5oPGEgaHJlZj0iaHR0cDovL3dlaWJvLmNvbS91LzUyMjEwNTM5MjEiIHRhcmdldD0iX2JsYW5rIj7liY3lvoDlvq7ljZo8aW1nIHNyYz0iL3dlaWJvL3NpbmEuanBnIiA+Jmd0OzwvYT4TMjAxNC8xMi8xNSAyMzowNTozNAUxNjgwMwEwBTE2ODAzZAIBD2QWAmYPFQ0CNTMvaW1hZ2VzL21lbWJlci9kYXlfMTYxMDMxLzIwMTYxMDMxMDgxODA0MTMwNy5qcGcCNTMJ6ZmI5oCh6aaoBVNOSDQ4A0hJSU3liIbkuqvkuIDlvKDmiJHllpzmrKLnmoTlm77niYcg6YKj5LmI5pma5a6JP+W4jOacm+Wkp+WutumDveiDveW8gOW8gOW/g+W/g+eahOEBPGRpdiBjbGFzcz0icG9ydHJhaXQiPjxpbWcgY2xhc3M9InBpYyIgc3JjPSJodHRwOi8vd3cyLnNpbmFpbWcuY24vdGh1bWIxODAvMDA1SGwwRDdqdzFlbjltemQ4OGdvajMwZHcwYm43NWouanBnIiBkYXRhLXNyYy13aWRlPSJodHRwOi8vd3cyLnNpbmFpbWcuY24vbGFyZ2UvMDA1SGwwRDdqdzFlbjltemQ4OGdvajMwZHcwYm43NWouanBnIiBhbHQ9IueCueWHu+afpeeci+Wkp+WbviI+PC9kaXY+aDxhIGhyZWY9Imh0dHA6Ly93ZWliby5jb20vdS81MjIxMDUzOTIxIiB0YXJnZXQ9Il9ibGFuayI+5YmN5b6A5b6u5Y2aPGltZyBzcmM9Ii93ZWliby9zaW5hLmpwZyIgPiZndDs8L2E+EzIwMTQvMTIvMTQgMjM6NDI6NDcFMTY3MzcBMAUxNjczN2QCAg9kFgJmDxUNAjUzL2lt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" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="0E625D8A" />
+</div>
+        <div class="topa">
+    <div class="box headerbox headerB">
+        <div class="logo"><a href="http://www.snh48club.com" class="logoer"><img src="/images/logo.png" alt="SNH48歌迷会"></a><a href="http://www.snh48club.com/" id="aTopNav0"  class="shouye_b">首页</a><a href="/member/" id="aTopNav3"  class="shouye_b">成员</a><a href="/dongtai/" id="aTopNav2"  class="shouye_b">动态</a><a href="/xingcheng" id="aTopNav8"  class="shouye_b">行程</a><a href="/content/" id="aTopNav10"  class="shouye_b">资讯</a><a href="/gongyan/" id="aTopNav4"  class="shouye_b">活动</a><a href="/image/" id="aTopNav5"  class="shouye_b">图库</a><a href="/video/" id="aTopNav6"  class="shouye_b">影音</a><a href="/app" class="account shouye_b">手机客户端</a><a href="http://www.snh48club.com/donate.aspx" id="aTopNav11" class="shouye_b">赞助</a><a href="http://www.snh48club.com/gzh.aspx" class="shouye_b">公众号</a></div>
+
+
+    </div>
+</div>
+        <div class="content box clear">
+            <div class="left">
+                <div class="h4"><a href="http://www.snh48club.com">首页</a><b>></b><span>陈怡馨的动态</span>
+                    <div class="tab clear">
+                        <a href="/dongtai" class="dw0 dian btnTeam" data-teamid="0">全部</a>
+                        <a href="/dongtai/team7" class="dw1 btnTeam" data-teamid="7">SNH48</a>
+                         <a href="/dongtai/team9" class="dw3 btnTeam" data-teamid="9">BEJ48</a>
+                        <a href="/dongtai/team8" class="dw2 btnTeam" data-teamid="8">GNZ48</a>
+                       
+                    </div>
+                </div>
+
+                <ul class="nav_2 clear" id="ulTeam" style="display: none;">
+                    <li class="team7"><a href="/dongtai/team7" id="aTeam7">全部</a></li>
+                    <li class="team8"><a href="/dongtai/team8" id="aTeam8">全部</a></li>
+                    <li class="team9"><a href="/dongtai/team9" id="aTeam9">全部</a></li>
+                    <li class="team7" data-teamid="1"><a href="/dongtai/team1" id="aTeam1">SII</a></li>
+                    <li class="team7" data-teamid="2"><a href="/dongtai/team2" id="aTeam2">NII</a></li>
+                    <li class="team7" data-teamid="3"><a href="/dongtai/team3" id="aTeam3">HII</a></li>
+                    <li class="team7" data-teamid="5"><a href="/dongtai/team5" id="aTeam5">X</a></li>
+                    <li class="team7" data-teamid="6"><a href="/dongtai/team6" id="aTeam6">XII</a></li>
+                    <li class="team9" data-teamid="10"><a href="/dongtai/team10" id="aTeam10">B</a></li>
+                    <li class="team9" data-teamid="11"><a href="/dongtai/team11" id="aTeam11">E</a></li>
+                    <li class="team9" data-teamid="12"><a href="/dongtai/team12" id="aTeam12">J</a></li>
+                    <li class="team8" data-teamid="13"><a href="/dongtai/team13" id="aTeam13">G</a></li>
+                    <li class="team8" data-teamid="14"><a href="/dongtai/team14" id="aTeam14">NIII</a></li>
+                    <li class="team8" data-teamid="15"><a href="/dongtai/team15" id="aTeam15">Z</a></li>
+                </ul>
+                <div class="app2"></div>
+                <div>
+                    
+                </div>
+
+
+                
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">久违的出去玩了 跟大家一起很开心?身边都是一群温暖的人 虽然平时话不多 但是心里总是被各种各样的小事感动着。一起吃了晚餐也聊了很久的天 最后还看了电影。ww啊..充好电了??想想这周也有好多事要忙的 加油！</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww3.sinaimg.cn/thumb180/005Hl0D7jw1enar2gmreuj30hs0dcwfo.jpg" data-src-wide="http://ww3.sinaimg.cn/large/005Hl0D7jw1enar2gmreuj30hs0dcwfo.jpg" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1enar2h84iaj30hs0dcq3t.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1enar2h84iaj30hs0dcq3t.jpg" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww4.sinaimg.cn/thumb180/005Hl0D7jw1enar2sayovj30tx0mvgof.jpg" data-src-wide="http://ww4.sinaimg.cn/large/005Hl0D7jw1enar2sayovj30tx0mvgof.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/15 23:05:34<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16803">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16803" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">分享一张我喜欢的图片 那么晚安?希望大家都能开开心心的</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1en9mzd88goj30dw0bn75j.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1en9mzd88goj30dw0bn75j.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/14 23:42:47<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16737">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16737" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">照片也发发看</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1en74c6hntaj30f00k0wp7.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1en74c6hntaj30f00k0wp7.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/12 19:29:48<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16559">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16559" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">不知道这条微博能不能发出去  ヘ(??ヘ)。。手机研究中</div>
+                                    <div class="imgs clear imgsWidth"></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/12 19:23:39<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16557">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16557" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">今天本来是打算扎双马尾的 但是因为有几个成员扎了结果换成丸子头啦~那么 周日要什么发型好呢（笑）女生就是纠结的动物。啊 对~想了很久的手机今天终于到啦~酷酷的翻盖机</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1en6744f4shj30o00w0nhk.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1en6744f4shj30o00w0nhk.jpg" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1en67470094j31hc1hc7wh.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1en67470094j31hc1hc7wh.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/12 0:24:37<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16508">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16508" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">今天起床后照了下镜子 感觉脸不是很圆 难道是…热胀冷缩原理？…  原来没有戴眼镜… (っ??╭╮??)っ</div>
+                                    <div class="imgs clear imgsWidth"></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/11 10:29:29<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16451">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16451" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">唉 遇到骗子了  好伤心[泪] 我的钱 血汗钱 搬砖钱</div>
+                                    <div class="imgs clear imgsWidth"></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/10 15:45:56<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16396">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16396" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">啊…马上就是一月了，这个一月  现在就开始骚动了[笑cry]我有点紧张。[泪]</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww4.sinaimg.cn/thumb180/005Hl0D7jw1en2ni1eyabj30o00w0dl4.jpg" data-src-wide="http://ww4.sinaimg.cn/large/005Hl0D7jw1en2ni1eyabj30o00w0dl4.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/8 22:41:23<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16282">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16282" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">虽然我还没想好catch phrase 但是今天你们的call很棒噢！！！好惊讶好开心！[笑哈哈][笑哈哈][笑哈哈]以后能经常听到的吧[笑哈哈] 路上一定要注意安全哦。每次好像都是正能量的相互交换[可怜][爱你][爱你]以后也陪着我一起吧 ?? 有大家在真好。晚安哦</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww3.sinaimg.cn/thumb180/005Hl0D7jw1en0desk993j30o00w0e55.jpg" data-src-wide="http://ww3.sinaimg.cn/large/005Hl0D7jw1en0desk993j30o00w0e55.jpg" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww2.sinaimg.cn/thumb180/005Hl0D7jw1en0deurgphj30o00w0e59.jpg" data-src-wide="http://ww2.sinaimg.cn/large/005Hl0D7jw1en0deurgphj30o00w0e59.jpg" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww4.sinaimg.cn/thumb180/005Hl0D7jw1en0dewo7x8j30o00w01jd.jpg" data-src-wide="http://ww4.sinaimg.cn/large/005Hl0D7jw1en0dewo7x8j30o00w01jd.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/6 23:20:55<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="16110">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment16110" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">我偷来了照片发微博 你们知道第一个动图时候我的心情吗233。昨晚吃了药睡了一觉醒来好了很多 谢谢大家的关心[爱你]谢谢你们喜欢我昨天的新发型 下次也会继续尝试[兔子] 看了视频和返图发现我其实是傲娇蠢[笑哈哈]</div>
+                                    <div class="imgs clear imgsWidth"><div class="portrait"><img class="pic" src="http://ww3.sinaimg.cn/thumb180/005Hl0D7jw1emyo0m3g1ig303x06y1kx.gif" data-src-wide="http://ww3.sinaimg.cn/large/005Hl0D7jw1emyo0m3g1ig303x06y1kx.gif" alt="点击查看大图"></div><div class="portrait"><img class="pic" src="http://ww3.sinaimg.cn/thumb180/005Hl0D7jw1emyo0mvnp5j30hm1aadm3.jpg" data-src-wide="http://ww3.sinaimg.cn/large/005Hl0D7jw1emyo0mvnp5j30hm1aadm3.jpg" alt="点击查看大图"></div></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/5 12:06:07<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="15958">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment15958" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">今天公演状态不太好，头脑一直觉得眩晕，很抱歉让大家赶路来 结果却表现的连自己都不满意，后半场有努力在调整TT。真的觉得很抱歉 保证以后这种情况都不会再发生了。天气越来越冷大家也要照顾好自己 不要像我这样。</div>
+                                    <div class="imgs clear imgsWidth"></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/4 23:09:52<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="15925">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment15925" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="weibo clear">
+                            <div class="weibo_box">
+                                <div class="tx">
+                                    <a href="/dongtai/member53" target="_blank">
+                                        <img src="/images/member/day_161031/201610310818041307.jpg_120x120.jpg"></a>
+                                </div>
+                                <div class="text">
+                                    <div class="name"><a href="/dongtai/member53" target="_blank">陈怡馨</a><em>SNH48&nbsp;&nbsp;HII队</em></div>
+                                    <div class="wb_text">太阳照在头发上 头发就变成金色的了</div>
+                                    <div class="imgs clear imgsWidth"></div>
+                                    <div class="time"><a href="http://weibo.com/u/5221053921" target="_blank">前往微博<img src="/weibo/sina.jpg" >&gt;</a>2014/12/4 11:18:33<a href="javascript:void(0);" class="pinglun btnShowComment" data-id="15877">评论(0)</a>    </div>
+                                </div>
+
+                            </div>
+                            <div class="weibopinglun" id="divComment15877" style="display: none;">
+                                正在加载...
+  
+                            </div>
+                            
+                        </div>
+                    
+                
+<!-- AspNetPager 7.4.2 Copyright:2003-2012 Webdiyer (www.webdiyer.com) -->
+<div id="AspNetPager1" class="paginator" nextpagebuttonclass="cpa">
+<a href="/dongtai/member53/32" style="margin-right:5px;">◀</a><a href="/dongtai/member53/30" style="margin-right:5px;">...</a><a href="/dongtai/member53/31" style="margin-right:5px;">31</a><a href="/dongtai/member53/32" style="margin-right:5px;">32</a><span class="cpb" style="margin-right:5px;">33</span><a href="/dongtai/member53/34" style="margin-right:5px;">34</a><a href="/dongtai/member53/35" style="margin-right:5px;">35</a><a href="/dongtai/member53/36" style="margin-right:5px;">36</a><a href="/dongtai/member53/37" style="margin-right:5px;">37</a><a href="/dongtai/member53/38" style="margin-right:5px;">38</a><a href="/dongtai/member53/34" style="margin-right:5px;">下一页</a>
+</div>
+<!-- AspNetPager 7.4.2 Copyright:2003-2012 Webdiyer (www.webdiyer.com) -->
+
+
+
+
+            </div>
+            <div class="right">
+
+                <div class="gengx">
+                    最新视频
+                    
+                            <a href="/video/15743.html" class="video">
+                                <img src="/images/upload/day_170103/201701030916391781.jpg_230x150.jpg">
+                                <p>20170103 SNH48 费沁源《御龙在天手游》公主驾到直播真人秀</p>
+                            </a>
+                        
+                            <a href="/video/15742.html" class="video">
+                                <img src="/images/upload/day_170103/201701030915228076.jpg_230x150.jpg">
+                                <p>20170103 SNH48 刘炅然《御龙在天手游》公主驾到直播真人秀</p>
+                            </a>
+                        
+                            <a href="/video/15741.html" class="video">
+                                <img src="/images/upload/day_170103/201701030909116590.jpg_230x150.jpg">
+                                <p>20170103 SNH48 赵粤《御龙在天手游》公主驾到直播真人秀</p>
+                            </a>
+                        
+                            <a href="/video/15740.html" class="video">
+                                <img src="/images/upload/day_170103/201701030906487561.jpg_230x150.jpg">
+                                <p>20170103 SNH48 宋昕冉《御龙在天手游》公主驾到直播真人秀</p>
+                            </a>
+                        
+                </div>
+                <div id="box" class="r right">
+                    <div id="float" class="div1">
+                        <div class=" aa">
+                            <a href="/app.aspx" target="_blank">
+                                <img src="/images/app.png"></a>
+                            <div class="baidu">
+                                <script type="text/javascript">
+                                    var cpro_id="u1862086";
+                                    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0"}
+                                </script>
+                                <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                     <div class="footer">Copyright © 2014 snh48club.com All Rights Reserved 沪ICP备12007559号-7 </div>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa34546a4b8204bd02dcd913f6cb356b9' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"7","bdPos":"left","bdTop":"100"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+        <div class="carrousel">
+            <span class="spanPrev"><</span>
+            <span class="close entypo-cancel"></span>
+            <div class="wrapper">
+                <img src="images/" alt="BINGOO" />
+            </div>
+            <span class="spanNext">></span>
+        </div>
+
+        <script src="/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="/js/scrolltopcontrol.js"></script>
+        <script src="/js/unity.js"></script>
+        <script src="/js/weibobq.js"></script>
+        <script>
+            $(function () {
+               
+
+                $('.wb_text').each(function(i, item) {
+                    var sContent = $(this).html();
+                    sContent = weibobq.getWeiboBq(sContent.httpHtml());
+                    $(this).html(sContent);
+                });
+
+
+                $(function() {
+                    $('.btnShowComment').on('click', function() {
+                        var id = $(this).data('id');
+
+                        if ($('#divComment' + id).is(':hidden')) {
+                            $('#divComment' + id).show();
+                            if ($('#divComment' + id).html().trim() == '正在加载...') {
+                                
+
+                                $.ajax({
+                                    dataType: 'jsonp',
+                                    url: '/mob/json/weibo/weiboindex.aspx?type=1&contentid='+id,
+                                    type: 'GET',
+                                    beforeSend: function () {
+                                        
+                                    },
+                                    success: function (data) {
+                                        if (data.IsSuccess) {
+                                            if (data.List.length > 0) {
+                                                var sRet = '';
+                                                
+                                                $.each(data.List, function(i, item) {
+                                                   
+                                                    sRet += '<div class="list_li"><div class="WB_face"><a target="_blank" href="/dongtai/member'+item.MemberId+'"><img width="30" height="30" src="/'+item.FigureUrl+'_120x120.jpg" ></a></div><div class="list_con"><div class="WB_text"><a target="_blank" href="/dongtai/member'+item.MemberId+'">' + item.MemberName + '</a>：' + weibobq.getWeiboBq(item.Text.httpHtml()) + ' </div><div class="S_txt2">'+item.DateSpan+' </div></div></div>';
+                                                });
+
+                                                $('#divComment' + id).html(sRet);
+                                            } else {
+                                                alert('没有找到评论');
+                                                $('#divComment' + id).hide();
+                                            }
+                                           
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('获取失败');
+
+                                    },
+                                    timeout: 15000
+                                });
+                            }
+                        } else {
+                            $('#divComment' + id).hide();
+                        }
+
+                        
+                    });
+
+                });
+
+                initNav('2');
+
+                var sTeamID=3;
+                $('#aTeam'+sTeamID).addClass('dian');
+                $('.btnTeam[data-teamid="'+sTeamID+'"]').addClass('dian').siblings().removeClass('dian');
+                if (sTeamID == 0) {
+                    $('#ulTeam').hide();
+                } else {
+                    $('#ulTeam li').hide();
+                    $('#ulTeam').show();
+                   
+                    if (sTeamID == 7||sTeamID==1||sTeamID==2||sTeamID==3||sTeamID==5||sTeamID==6) {
+                        $('.team7').show();
+                        $('.btnTeam[data-teamid=7]').addClass('dian').siblings().removeClass('dian');
+                    }else if (sTeamID == 8||sTeamID==13||sTeamID==14) {
+                        $('.team8').show();
+                        $('.btnTeam[data-teamid=8]').addClass('dian').siblings().removeClass('dian');
+                    }else if (sTeamID == 9||sTeamID==10||sTeamID==11) {
+                        $('.team9').show();
+                        $('.btnTeam[data-teamid=9]').addClass('dian').siblings().removeClass('dian');
+                    }
+                }
+
+
+                var iParentTeamId = 7;
+                if (iParentTeamId == 8) {
+                    $("<link>") .attr({
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href:   "/style/color_gnz48.css"
+                    }).appendTo("head");
+                }else if (iParentTeamId == 9) {
+                    $("<link>") .attr({
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href:   "/style/color_bej48.css"
+                    }).appendTo("head");
+                }
+
+
+                var carrousel = $( ".carrousel" );
+
+                $( ".portrait" ).click( function(e){
+                    showButton($(this));
+                    var src = $(this).find(".pic").attr( "data-src-wide" );
+                    carrousel.find("img").attr( "src", src );
+                    carrousel.fadeIn( 200 );
+
+                });
+
+                $('.close').click( function(e){
+                    carrousel.find( "img" ).attr( "src", '' );
+                    carrousel.fadeOut( 200 );
+                } );
+                $('.wrapper').click( function(e){
+                    carrousel.find( "img" ).attr( "src", '' );
+                    carrousel.fadeOut( 200 );
+                } );
+
+                $(".spanPrev").click(function () {
+                    showPic(-1);
+                });
+
+                $(".spanNext").click(function () {
+                    showPic(1);
+                });
+
+                //点击上下按钮后显示大图
+                function showPic(pre) {
+                    var carrousel = $(".carrousel");
+                    var imageList = $(".imgs");
+                    var flag = true;
+                    for (var i = 0; i < imageList.length; i++) {
+                        for (var j = 0; j < imageList[i].children.length; j++) {
+                            var selectImage = imageList[i].children[j].firstChild.attributes["data-src-wide"];
+                            if (selectImage.textContent == carrousel.find("img").attr("src")) {
+                                if (j >= 0) {
+                                    var index = j;
+                                    if (pre == 1)
+                                        index++;
+                                    else
+                                        index--;
+
+                                    carrousel.find("img").attr("src", imageList[i].children[index].firstChild.attributes["data-src-wide"].textContent);
+
+                                    if (imageList[i].children.length == 1) {
+                                        $(".spanPrev").hide();
+                                        $(".spanNext").hide();
+                                    } else {
+                                        var maxIndex = imageList[i].children.length;
+                                        if (pre == 1)
+                                            maxIndex--;
+
+                                        switch (index) {
+                                            //第一个元素
+                                            case 0:
+                                                $(".spanPrev").hide();
+                                                $(".spanNext").show();
+                                                break;
+                                                //最后一个元素
+                                            case maxIndex:
+                                                $(".spanPrev").show();
+                                                $(".spanNext").hide();
+                                                break;
+                                            default:
+                                                $(".spanPrev").show();
+                                                $(".spanNext").show();
+                                                break;
+                                        }
+                                    }
+
+
+
+                                    flag = false;
+
+                                    break;
+                                }
+                            }
+                        }
+                        if (!flag) break;
+                    }
+                }
+
+                //显示上下按钮
+                function showButton(div) {
+                    var imgs = div.parent().find(".portrait");
+                    if (imgs.length == 1) {
+                        $(".spanPrev").hide();
+                        $(".spanNext").hide();
+                    } else {
+
+
+                        var imgIndex = imgs.index(div);
+                        switch (imgIndex) {
+                            //第一个元素
+                            case 0:
+                                $(".spanPrev").hide();
+                                $(".spanNext").show();
+                                break;
+                                //最后一个元素
+                            case imgs.length - 1:
+                                $(".spanPrev").show();
+                                $(".spanNext").hide();
+                                break;
+                            default:
+                                $(".spanPrev").show();
+                                $(".spanNext").show();
+                                break;
+                        }
+                    }
+                }
+
+            });
+            (function () {
+                var oDiv = document.getElementById("float");
+                var H = 0,
+                iE6;
+                var Y = oDiv;
+                while (Y) {
+                    H += Y.offsetTop;
+                    Y = Y.offsetParent
+                };
+                iE6 = window.ActiveXObject && !window.XMLHttpRequest;
+                if (!iE6) {
+                    window.onscroll = function () {
+                        var s = document.body.scrollTop || document.documentElement.scrollTop;
+                        if (s > H) {
+                            oDiv.className = "div1 div2";
+                            if (iE6) {
+                                oDiv.style.top = (s - H) + "px";
+                            }
+                        } else {
+                            oDiv.className = "div1";
+                        }
+                    };
+                }
+            })();
+
+            String.prototype.httpHtml = function () {
+                //var noHtml = this.replace(/<[^>]+>/g, "");
+                var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|:)+)/g;
+                return this.replace(reg, '<a href="$1$2" data-url="$1$2" class="btnGotoUrlNative" target="_blank">$1$2</a>');
+            };
+        </script>
+    </form>
+</body>
+</html>

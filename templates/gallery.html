@@ -1,0 +1,31 @@
+{#- Note: set LAZYLOAD to True in globals -#}
+
+{%- from '_macros.html' import info_nav_bar, fancybox_image with context -%}
+
+{%- set title -%}
+画廊
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    {%- set info -%}
+    {{ images|length }}张图片
+    {%- endset %}
+    {{ info_nav_bar(info)|indent(4) }}
+    <hr>
+    <div class="intro">本页集中了嘟嘟所有状态配图（不包括评论配图和其他成员状态配图），按时间倒序排列。点击缩略图查看大图；点击大图下方的日期查看相应状态。查看相应状态后点击浏览器返回键可回到画廊内之前的位置。</div>
+    <div id="full-gallery" class="gallery clear">
+      {%- for status_id, date, filename in images %}
+      {%- set custom_data -%}data-date="{{ date }}" data-status-id="{{ status_id }}"{%- endset -%}
+      {{ fancybox_image(filename, custom_data)|indent(6) }}
+      {%- endfor %}
+    </div>
+    <hr>
+    {{ info_nav_bar(info, back_to_top=true)|indent(4) }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

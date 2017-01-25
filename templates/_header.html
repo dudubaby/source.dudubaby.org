@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>嘟嘟宝贝 {{ title|e }}</title>
+  {%- if PRODUCTION %}
+  <link href="/assets/css/build.min.css?v={{ CSS_VERSION }}" rel="stylesheet">
+  <script src="/assets/js/build.min.js?v={{ JS_VERSION }}" async></script>
+  {%- else %}
+  <link href="/bower_components/normalize-css/normalize.css" rel="stylesheet">
+  <link href="/bower_components/fancybox/source/jquery.fancybox.css" rel="stylesheet">
+  <link href="/bower_components/qtip2/jquery.qtip.css" rel="stylesheet">
+  <link href="/assets/css/theme.css?v={{ CSS_VERSION }}" rel="stylesheet">
+  {% if GA_TRACKING_ID -%}
+  <script>window.gaTrackingId = '{{ GA_TRACKING_ID }}'</script>
+  {% endif -%}
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/fancybox/source/jquery.fancybox.js"></script>
+  <script src="/bower_components/qtip2/jquery.qtip.js"></script>
+  <script src="/bower_components/onScreen/jquery.onscreen.js"></script>
+  <script src="/bower_components/mousetrap/mousetrap.js"></script>
+  <script src="/bower_components/mousetrap/plugins/pause/mousetrap-pause.js"></script>
+  <script src="/bower_components/jquery_lazyload/jquery.lazyload.js"></script>
+  <script src="/assets/js/ui.js?v={{ JS_VERSION }}"></script>
+  {%- endif %}
+  <noscript><style>#loading-top { display:none; }</style></noscript>
+</head>
+<body>
+  <noscript id="noscript-alert">本站须JavaScript才能正常运行</noscript>
+  <div id="loading-top">加载中……</div>
+  <div class="nav">
+    <a href="/"><img id="logo" src="/assets/images/logo.png" srcset="/assets/images/logo.png 2x, /assets/images/logo@1x.png 1x" alt="logo"></a>
+    <div><a href="/">首页</a></div>
+    <div><a href="/about">关于</a></div>
+    <div>
+      <span>音乐盒</span>
+      <span id="audio-control" class="paused" title="播放音乐"></span>
+      <span id="audio-info"></span>
+      <audio id="audio" loop preload="metadata" src="/assets/audio/dudubaby-128k.mp3"></audio>
+    </div>
+    <div class="menu">
+      <span>工具</span>
+      <ul style="display: none">
+        <li id="global-comments-toggler" class="{% if show_comments %}on{% else %}off{% endif %}">{% if show_comments %}收起{% else %}展开{% endif %}所有评论</li>
+        {%- if ALT_SITE %}
+        <li id="image-source-switcher"><a href="{{ ALT_SITE }}" target="_blank">切换图源至{% if LOCAL_IMAGES %}新浪{% else %}本站{% endif %}</a></li>
+        {%- endif %}
+      </ul>
+    </div>
+    <img id="teamh2-logo" src="/assets/images/teamh2.png" alt="teamh2">
+  </div>
+  <div class="nav-right">
+    <div><a href="/all/1">全部状态</a></div>
+    <div><a href="/2016/12">按月浏览</a></div>
+    <div><a href="{{ latest_status_link }}">单条状态</a></div>
+    <div><a href="/interactions/">成员互动</a></div>
+  </div>
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

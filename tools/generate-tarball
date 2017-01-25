@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+setopt errexit
+
+print_progress () print -R $'\e[32m'"$*"$'\e[0m' >&2
+
+root=$0:A:h:h
+treeish=$(git -C $root describe --abbrev=0 2>/dev/null || git -C $root rev-parse --short HEAD)
+tarball_path=dist/source.dudubaby.org-$treeish.tar.gz
+print_progress "Generating tarball for $treeish..."
+git -C $root archive \
+    --format=tar.gz \
+    --prefix=source.dudubaby.org-$treeish/ \
+    --output=$root/$tarball_path \
+    $treeish
+print_progress "Generated $tarball_path"

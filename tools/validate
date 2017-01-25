@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+default_build_dir=${${:-$0:A:h/../_build}:A}
+
+# - Excluding 'escaping malformed URI reference':
+#   IRI not accepted yet: https://github.com/htacg/tidy-html5/issues/378
+# - Excluding '<img> lacks "src" attribute' on /gallery and /one-page:
+#   We're using jquery.lazyload on these pages.
+find ${1:-$default_build_dir} -name '*.html' -print0 | \
+    xargs -0 tidy -q -e --gnu-emacs yes |& \
+    grep -v 'escaping malformed URI reference' |& \
+    grep -E -v '/(gallery|one-page)\.html.*<img> lacks "src" attribute'

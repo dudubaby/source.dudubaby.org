@@ -1,0 +1,333 @@
+#!/usr/bin/env python3
+
+import logging
+import math
+import os
+import re
+import textwrap
+import urllib.parse
+
+import htmlmin.minify
+import peewee
+
+import conf
+import initdb
+import sitemap
+from jinjaenv import JINJAENV, setglobal
+from schema import Comment, Member, Status, atomic, comments, token
+from teams import TEAMS, TEAMS_ORDER, team as affiliation
+
+logging.basicConfig(format='[%(name)s] %(levelname)s: %(message)s')
+logger = logging.getLogger('extract')
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+BUILDPATH = conf.buildpath
+SITE_PREFIX = conf.site_prefix
+PRODUCTION = conf.production
+
+IMAGE_SOURCE = conf.image_source
+LOCAL_IMAGES = conf.local_images
+if IMAGE_SOURCE not in ['local', 'sina']:
+    logger.warning(f"Unrecognized image source '{IMAGE_SOURCE}'; using local instead.")
+ALLOW_CRAWLERS = conf.allow_crawlers
+
+# For all/*
+STATUSES_PER_PAGE = conf.statuses_per_page
+
+PAGE_LIST = []
+
+STRIP_HTML_EXTENSION = re.compile(r'^(?P<base>.*?)((index)?\.html)?$')
+WEIBO_EMOJI_URL = re.compile(r'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/'
+                             r'[0-9a-f]{2}/(?P<filename>\w+\.(gif|jpg|png))', re.A)
+
+def diskpath(path):
+    return os.path.join(BUILDPATH, path)
+
+def sitepath(path):
+    return urllib.parse.urljoin(SITE_PREFIX, urllib.parse.quote(path))
+
+def replace_emojis(s):
+    return WEIBO_EMOJI_URL.sub(lambda m: m.expand(r'/assets/images/emojis/\g<filename>'), s)
+
+def generate_page(template, path, add_to_sitemap=True, **kwargs):
+    if add_to_sitemap:
+        PAGE_LIST.append(path)
+    no_message = kwargs.pop('no_message', False)
+    if not no_message:
+        print(f'Generating {path} ...')
+    path = diskpath(path)
+    if isinstance(template, str):
+        template = JINJAENV.get_template(template)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w') as fp:
+        html = template.render(**kwargs)
+        if PRODUCTION:
+            # BEWARE: SLOW AS HELL
+            fp.write(htmlmin.minify.html_minify(html))
+        else:
+            fp.write(html)
+
+def build_standalone_pages(**kwargs):
+    pages = [
+        ('index.html', 'index.html'),
+        ('about.html', 'about.html'),
+        ('all_index.html', 'all/index.html'),
+        ('404.html', '404.html'),
+    ]
+    for template, path in pages:
+        generate_page(template, path, **kwargs)
+
+def build_all(statuses):
+    template = JINJAENV.get_template('all_page.html')
+    total = len(statuses)
+    total_pages = math.ceil(total / STATUSES_PER_PAGE)
+    for page in range(1, total_pages + 1):
+        generate_page(
+            template,
+            f'all/{page}.html',
+            page=page,
+            total_pages=total_pages,
+            total=total,
+            first_link=f'/all/1',
+            prev_link=f'/all/{page - 1}' if page > 1 else '',
+            next_link=f'/all/{page + 1}' if page < total_pages else '',
+            last_link=f'/all/{total_pages}',
+            statuses=statuses[(page - 1) * STATUSES_PER_PAGE : page * STATUSES_PER_PAGE],
+        )
+
+def build_one_page(statuses):
+    with setglobal('LAZYLOAD', True):
+        generate_page(
+            'one_page.html',
+            'one-page.html',
+            statuses=statuses,
+        )
+
+def build_interactions(statuses):
+    interactions_map = {}
+
+    def insert_interaction(member, status):
+        if member not in interactions_map:
+            interactions_map[member] = []
+        interactions_map[member].append(status)
+
+    template = JINJAENV.get_template('interaction_page.html')
+    dummy_template = JINJAENV.get_template('dummy_interaction_page.html')
+    for status in statuses:
+        author_name = status.author.name
+        if author_name != '陈怡馨':
+            insert_interaction(author_name, status)
+        else:
+            commenter_names = {c.commenter.name for c in comments(status)}
+            for name in commenter_names:
+                if name != '陈怡馨':
+                    insert_interaction(name, status)
+
+    blacklist = ['陈怡馨', 'SNH48', 'BEJ48', 'GNZ48', '星梦咖啡店']
+    interactions_count = {}
+    for member in Member.select().order_by(Member.name):
+        name = member.name
+        if name in blacklist:
+            continue
+        if name not in interactions_map:
+            # No interactions, generate dummy page
+            generate_page(
+                dummy_template,
+                f'interactions/{name}.html',
+                name=name,
+            )
+        else:
+            interactions = interactions_map[name]
+            count = len(interactions)
+            interactions_count[name] = count
+            generate_page(
+                template,
+                f'interactions/{name}.html',
+                name=name,
+                statuses=interactions,
+            )
+
+    def key(v):
+        name, count = v
+        # Sort by count first, then team
+        return (count, TEAMS_ORDER[affiliation(name)])
+
+    teams = [
+        {'id': 's2'},
+        {'id': 'n2'},
+        {'id': 'h2'},
+        {'id': 'x'},
+        {'id': 'x2'},
+        {'id': 'b'},
+        {'id': 'e'},
+        {'id': 'g'},
+        {'id': 'n3'},
+        {'id': 'teamless'},
+    ]
+    for team in teams:
+        tid = team['id']
+        team['title'] = TEAMS[tid]
+        team['interactions_count'] = []
+        int_count = team['interactions_count']
+        for name, count in interactions_count.items():
+            if affiliation(name) == tid:
+                int_count.append((name, count))
+        int_count.sort(key=key, reverse=True)
+
+    generate_page(
+        'interactions_index.html',
+        'interactions/index.html',
+        interactions_count=sorted(interactions_count.items(), key=key, reverse=True),
+        teams=teams,
+    )
+
+def build_years_months(statuses):
+    years = [
+        (2014, [7, 8, 9, 10, 11, 12]),
+        (2015, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+        (2016, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+    ]
+
+    months = [
+        (2014, 7), (2014, 8), (2014, 9), (2014, 10), (2014, 11), (2014, 12),
+        (2015, 1), (2015, 2), (2015, 3), (2015, 4), (2015, 5), (2015, 6),
+        (2015, 7), (2015, 8), (2015, 9), (2015, 10), (2015, 11), (2015, 12),
+        (2016, 1), (2016, 2), (2016, 3), (2016, 4), (2016, 5), (2016, 6),
+        (2016, 7), (2016, 8), (2016, 9), (2016, 10), (2016, 11), (2016, 12),
+    ]
+
+    template = JINJAENV.get_template('year_page.html')
+    for year, months_in_year in years:
+        generate_page(
+            template,
+            f'{year}/index.html',
+            year=year,
+            months=list(map(lambda month: (f'{year}-{month:02d}', f'/{year}/{month:02d}'),
+                            months_in_year)),
+        )
+
+    template = JINJAENV.get_template('month_page.html')
+    template_alt = JINJAENV.get_template('month_alt_page.html')
+    num_months = len(months)
+    for i in range(num_months):
+        year, month = months[i]
+        prev_link = f'/{months[i-1][0]}/{months[i-1][1]:02d}' if i > 0 else None
+        next_link = f'/{months[i+1][0]}/{months[i+1][1]:02d}' if i < num_months - 1 else None
+        generate_page(
+            template,
+            f'{year}/{month:02d}.html',
+            year=year,
+            month=month,
+            prev_link=prev_link,
+            next_link=next_link,
+            statuses=[s for s in statuses
+                      if s.created_at.year == year and s.created_at.month == month]
+        )
+        if month < 10:
+            # Generate redirect page /20xx/y => /20xx/0y
+            generate_page(
+                template_alt,
+                f'{year}/{month}.html',
+                add_to_sitemap=False,
+                year=year,
+                month=month,
+            )
+
+def build_status_pages(statuses):
+    statuses = [(s, f'/status/{token(s)}') for s in statuses]
+    count = len(statuses)
+    template = JINJAENV.get_template('status_page.html')
+    first_link = statuses[-1][1]
+    last_link = statuses[0][1]
+    generate_page(
+        'status_index.html',
+        'status/index.html',
+        last_link=last_link,
+    )
+    print('Generating individual status pages...')
+    for i in range(count):
+        status, link = statuses[i]
+        generate_page(
+            template,
+            f'{link[1:]}.html',
+            status=status,
+            prev_link=statuses[i+1][1] if i < count - 1 else None,
+            next_link=statuses[i-1][1] if i > 0 else None,
+            first_link=first_link,
+            last_link=last_link,
+            no_message=True,
+        )
+
+def build_gallery_page(statuses):
+    images = []
+    for status in statuses:
+        if status.author.name != '陈怡馨':
+            continue
+        status_id = token(status)
+        date = status.created_at.strftime('%Y-%m-%d')
+        images.extend([(status_id, date, filename) for filename in status.images.split()])
+
+    with setglobal('LAZYLOAD', True):
+        generate_page(
+            'gallery.html',
+            'gallery.html',
+            images=images,
+        )
+
+def generate_robot_food(statuses):
+    with open(diskpath('robots.txt'), 'w') as fp:
+        if ALLOW_CRAWLERS:
+            fp.write(textwrap.dedent(f'''\
+            User-agent: *
+            Disallow:
+            Sitemap: {sitepath('sitemap.xml')}
+            '''))
+        else:
+            fp.write(textwrap.dedent(f'''\
+            User-agent: *
+            Disallow: /
+            '''))
+
+    pagelist = [STRIP_HTML_EXTENSION.match(path).group('base')
+                for path in PAGE_LIST if path != '404.html']
+    with open(diskpath('sitemap.txt'), 'w') as fp:
+        fp.write(sitemap.txt_sitemap(pagelist))
+
+    with open(diskpath('sitemap.xml'), 'wb') as bfp:
+        bfp.write(sitemap.xml_sitemap(pagelist, statuses, local_images=LOCAL_IMAGES))
+
+def main():
+    print(f'Building site in {BUILDPATH}')
+
+    statuses = Status.select().order_by(Status.created_at.desc(), Status.id)
+    comments = Comment.select().order_by(Comment.created_at, Comment.id)
+    statuses = peewee.prefetch(statuses, comments)
+
+    with atomic() as transaction:
+        if LOCAL_IMAGES:
+            # Edit Status and Comment objects in place, but we won't commit.
+            #
+            # Note that the changes will be picked up during the build
+            # because all objects have been prefetched and are being
+            # edited here.
+            for status in statuses:
+                status.body = replace_emojis(status.body)
+                if status.orig_body:
+                    status.orig_body = replace_emojis(status.orig_body)
+                for comment in status.comments_prefetch:
+                    comment.body = replace_emojis(comment.body)
+
+        JINJAENV.globals['latest_status_link'] = f'/status/{token(statuses[0])}'
+        build_standalone_pages()
+        build_all(statuses)
+        build_one_page(statuses)
+        build_interactions(statuses)
+        build_years_months(statuses)
+        build_gallery_page(statuses)
+        build_status_pages(statuses)
+        generate_robot_food(statuses)
+
+        transaction.rollback()
+
+if __name__ == '__main__':
+    main()

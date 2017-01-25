@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+setopt extendedglob
+here=$0:A:h
+exec <$here/pages.txt
+dir=$here/pages
+mkdir -p $dir
+while read -r url; do
+    [[ $url == (#b)*weiboPage=(<->)\&timeRange=(<->)-(<->)-(<->) ]]
+    page=$match[1]
+    shift match
+    date=$(printf %s $match) # YYYYMMDD for the left end of the date range
+    echo $url
+    wget -nv -O $dir/$date-$page.html $url
+done

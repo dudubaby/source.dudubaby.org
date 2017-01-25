@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+here=$0:A:h
+pagesdir=$here/pages
+commentsdir=$here/comments
+mkdir -p $commentsdir
+for page in $pagesdir/*.html; do
+    grep -Po '(?<=data-id=")[0-9]+(?=")' <$page | while read dataid; do
+        echo $dataid
+        wget -O $commentsdir/$dataid.json \
+             "http://www.snh48club.com/mob/json/weibo/weiboindex.aspx?&type=1&contentid=$dataid"
+    done
+done

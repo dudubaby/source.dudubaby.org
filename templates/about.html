@@ -1,0 +1,145 @@
+{%- set title = '关于' -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <article>
+      <h1>关于</h1>
+      <h2 id="contents">目录</h2>
+      <ul>
+        <li><a href="#dudu">关于嘟嘟</a></li>
+        <li><a href="#author">关于作者</a></li>
+        <li><a href="#purpose">关于本站的初衷</a></li>
+        <li><a href="#data-source">关于本站的数据来源</a></li>
+        <li><a href="#image-source">关于本站的图片源</a></li>
+        <li><a href="#mainland-performance">关于本站在中国大陆的速度</a></li>
+        <li><a href="#typography">关于本站的排版</a></li>
+        <li><a href="#privacy">关于用户隐私</a></li>
+        <li><a href="#operation">关于本站的运营</a></li>
+        <li><a href="#guide">使用指南</a></li>
+        <li><a href="#resources">其他资源</a></li>
+        <li><a href="#technical">技术细节</a></li>
+        <li><a href="#changelog">更新日志</a></li>
+      </ul>
+
+
+      <h2 id="dudu"><a href="#contents">关于嘟嘟</a></h2>
+      <p>简而言之，嘟嘟是个很可爱也很努力的女孩。</p>
+      <p>其余请自行体会吧。（不仅仅是看微博感受；请参考<a href="#resources">其他资源</a>。当然，有很多东西，过去就无法补档了。）</p>
+
+
+      <h2 id="author"><a href="#contents">关于作者</a></h2>
+      <p>本站由@zmwangx制作。关于作者的个人信息及其他项目，请访问作者的<a href="https://github.com/zmwangx" target="_blank">GitHub主页</a>。</p>
+      <p>如有意见或建议，请通过电子邮箱<a href="mailto:zmwangx@gmail.com">zmwangx@gmail.com</a>联系作者；对于重要事项（如版权方对本站内容有异议）作者定会尽快答复，请稍事等待。</p>
+      <p>打了官腔之后，作者还想说三两句感性的话。</p>
+      <p>嘟嘟并不是领我入坑的人，但我入坑不久就喜欢上了嘟嘟；直至她离开的时候，嘟嘟都是我的首推。各种事实和传言表明，嘟嘟一直是运营比较欣赏的成员；但由于各种时、运的关系，嘟嘟是以小荷才露尖尖角的状态离开的。不少惋惜的声音说：我才刚刚喜欢上你，你就走了，而且不留一点痕迹。而我，我想说：感谢命运，让我比他们早些认识了你。</p>
+      <p>（其实我正在做的，不正是让嘟嘟留下一些痕迹么。记得嘟嘟有一次说希望被大家遗忘；可惜，虽然我很支持她的选择，但我还想记她更久一点。）</p>
+
+
+      <h2 id="purpose"><a href="#contents">关于本站的初衷</a></h2>
+      <p>本站的初衷很简单，即标志中的副标题：记念SNH48陈怡馨。记念，记以念之。</p>
+      <p>如何记？最明显的方式是搜集和保存嘟嘟本人发过的文字和图片。这是作者的出发点。但搜集、保存了之后呢？不如做一个网站，让大家都可以方便地浏览。其实，嘟嘟的微博记录目前还可以在口袋48看到，但一方面，本人对口袋48的用户体验实在不敢恭维；另一方面，公司有删除原成员资料的大量先例，我们并不知道口袋48里的数据能留存多久。另外，一些粉丝创建的网站也有相应的功能，但本人对其设计和界面均不满意。于是，作者按照自己的喜好设计了本站。（作者作为一个keyboard junkie加入了不少快捷键；若您是同道中人，请按问号键查看帮助。）</p>
+
+
+      <h2 id="data-source"><a href="#contents">关于本站的数据来源</a></h2>
+      <p>很可惜，在嘟嘟清空微博之前，作者并没有保留嘟嘟的微博数据。幸而<a href="http://snhey.com/Home/Profiles/SNH48-%E9%99%88%E6%80%A1%E9%A6%A8-" target="_blank">SNHey!</a>和<a href="http://www.snh48club.com/dongtai/member53/" target="_blank">48歌迷会</a>保留了大部分数据，其中SNHey!数据完整度较高。作者编写爬虫（代码参见<a href="#tech">技术细节</a>）搜集了以上两站的数据，以SNHey!的数据集为基础、以48歌迷会的数据为补充整合形成了当前所用的数据集。显然，一些迅速删除的状态并未被保留，部分状态的评论也不完全；另外，由于以上两站只搜集成员的状态和回复，嘟嘟与豆豆、夏奈、璐宝私博（<a href="http://weibo.com/u/5628064966" target="_blank">@李豆豆要开咖啡店</a>、<a href="http://weibo.com/demoyuki" target="_blank">@wink苦手的夏奈奈</a>、<a href="http://weibo.com/u/2060556575" target="_blank">@-王璐就是我-</a>）及马老师（<a href="http://weibo.com/mellem" target="_blank">@棒槌女郎</a>）、兜兜（<a href="http://weibo.com/u/5224033947" target="_blank">@1931陈怡凡</a>）等的互动大部分也已消失或不在数据集内，可谓一大憾事。不论如何，作者在此对上述两站表示深深的感激和敬意。</p>
+      <p>本站搜集的全部微博数据已经以SQLite3数据库的形式发布；参见<a href="https://github.com/dudubaby/source.dudubaby.org/tree/master/data/weibo-data.sqlite3.sql" target="_blank">weibo-data.sqlite3.sql</a>，或直接下载<a href="/assets/data/weibo-data.sqlite3" target="_blank">weibo-data.sqlite3</a>。
+      <p>如果您有更完整的数据集并有意分享，请<a href="mailto:zmwangx@gmail.com">联系作者</a>，不胜感谢。</p>
+      <p>注：口袋48也有至少可以用作补充的数据集，尤其是其陈怡馨本人状态完整度似胜过SNHey!和48歌迷会，而评论完整度作者无法评论。但作者并未收录此数据集，理由有三。其一，若要收集口袋48的数据，须调用口袋48的私用API接口；这些接口须有效访问码才能调用，其访问码虽不难获取，但很明显，开发方并不希望第三方使用这些接口，而作者不愿明知故犯。其二，相比其他两个数据源，口袋48的API结构（作者作了大致研究）决定了必须发送大量请求才能搜集到相当的数据集。其三，毕竟口袋48是商业性应用，不比非营利性网站SNHey!及48歌迷会，未经准许而使用其数据有道德问题，也有可能有法律问题。综上，作者不愿使用口袋48的数据。</p>
+
+
+      <h2 id="image-source"><a href="#contents">关于本站的图片源</a></h2>
+      <p>本站可使用两个图片源：其一，直接来自本站位于美国的服务器（经过CloudFlare的缓存），用于dudubaby.org；其二，来自新浪微博的CDN（即微博官方图片源），用于cn.dudubaby.org。若您发现dudubaby.org上图片加载速度慢，可尝试点击左侧工具悬浮菜单内的“切换图源至新浪”访问<a href="//cn.dudubaby.org" target="_blank">cn.dudubaby.org</a>；反之，请点击“切换图源至本站”访问<a href="//dudubaby.org" target="_blank">dudubaby.org</a>。</p>
+      <p>注：本站使用的GitHub Pages服务限制所有文件所占总空间不可超过1GB，所以来自本站的部分大图（您可点击状态及评论内的任何缩略图查看大图）经过了压缩；不过在大图浏览界面上总是有“点击查看原图”的链接。cn.dudubaby.org不受此限制。</p>
+
+
+      <h2 id="mainland-performance"><a href="#contents">关于本站在中国大陆的速度</a></h2>
+      <p>如前文所说，本站的源头服务器在美国，导致在国内的速度很不理想，且时有连接不上的可能。作者曾尝试百度云加速等国内服务，但由于本站未向我国公安部门备案，终究不能使用国内节点，结果收效甚微。作者也研究了备案的要求和流程，发现近年来国内互联网管控越来越严，虽然本站人畜无害，但由于域名、服务器、管理员均在海外，备案几乎不可能，于是只得作罢。总之，作者尽力了；未能挤进国内严苛而恶劣的互联网环境，作者也很无奈。</p>
+
+
+      <h2 id="typography"><a href="#contents">关于本站的排版</a></h2>
+      <p>中文字集过大，且缺乏不同操作系统及版本上均有保障的中文字体，所以网页上中文字体一直是个难题。虽然可以通过子集化的在线字体一定程度上解决这个问题，但作者并不希望每页都需要一次在线字体请求，而适合全站的字集很可能还是过大；且高质量的字体很少是免费的。基于以上考虑，本站完全使用本地字体。</p>
+      <p>本站的设计字体是macOS的Songti SC（宋体-简，来自常州华文）。SimSun（中易宋体）亦勉强可以接受，适合Windows用户。</p>
+
+
+      <h2 id="privacy"><a href="#contents">关于用户隐私</a></h2>
+      <p>本站使用Google Analytics最基础的功能记录访客的地域、操作系统、浏览器、屏幕分辨率、窗口尺寸、访问页面、页面加载速度等基本信息；详情请见<a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/#what_data_does_the_tracking_snippet_capture" target="_blank">Google的说明</a>。本站无法也无意辨识单个用户。若您不愿被Google Analytics跟踪，请使用任何可以阻挡google-analytics.com域名的插件，如<a href="https://adblockplus.org/" target="_blank">Adblock Plus</a>、<a href="https://github.com/gorhill/uBlock#readme" target="_blank">uBlock Origin</a>、<a href="https://github.com/gorhill/uMatrix#readme" target="_blank">uMatrix</a>。</p>
+
+
+      <h2 id="operation"><a href="#contents">关于本站的运营</a></h2>
+      <p>除域名注册费用由作者本人负担外，本站完全基于GitHub提供的免费<a href="https://pages.github.com/" target="_blank">GitHub Pages</a>服务及CloudFlare服务的<a href="https://www.cloudflare.com/plans/" target="_blank">免费版</a>。感谢GitHub和CloudFlare。</p>
+
+
+      <h2 id="guide"><a href="#contents">使用指南</a></h2>
+      <p>本站的各种浏览模式在首页上均有说明，并可通过正文右侧的橙色常驻菜单随时切换。</p>
+      <p>本站支持各种快捷键加速浏览；请按问号键（?）查看快捷键帮助。</p>
+      <p>本站左侧导航菜单中有一栏名为“工具”，可通过悬浮鼠标打开工具栏。</p>
+      <p>同在左侧导航菜单中的还有“音乐盒”，可控制播放背景音乐《Du Du Baby》。悬浮鼠标于音乐盒的信息图标上即可查看歌曲的详细信息。</p>
+
+
+      <h2 id="resources"><a href="#contents">其他资源</a></h2>
+      <p>以下列举一些视频资源：</p>
+      <hr class="skip">
+      <ul>
+        <li>(1) <a href="http://www.acfun.cn/u/1659985.aspx" target="_blank">嘟嘟的AcFun空间</a>，内有《嘟嘟的纪录片》及嘟嘟豆豆的宅舞《Pink Stick Luv》。</li>
+        <li>(2)《<a href="http://v.qq.com/program/fanju/index.html" target="_blank">饭局的诱惑</a>》，嘟嘟知名度最高的常驻综艺。</li>
+        <li>(3) 48歌迷会有H队全部公演录播，绝大多数是720p：第一支公演《<a href="http://www.snh48club.com/video/gongyan33" target="_blank">青春派对</a>》；第二支公演《<a href="http://www.snh48club.com/video/gongyan2063" target="_blank">手牵手</a>》；第三支公演《<a href="http://www.snh48club.com/video/gongyan2121" target="_blank">偶像的黎明</a>》。注：48歌迷会的影音区可根据成员及类别筛选。例：<a href="http://www.snh48club.com/video/member53" target="_blank">陈怡馨全部相关视频</a>（包括出席的公演、出演的综艺等）。</li>
+        <li>(4) <a href="http://space.bilibili.com/1315101" target="_blank">寒影AkiNa的哔哩哔哩空间</a>里可以找到2016年3月以来H队所有公演的1080p录播，画质较48歌迷会的稍好（幅度较大的舞蹈部分还是有明显的压缩失真）。</li>
+        <li>(5) <a href="http://v.qq.com/livemusic/snh48/" target="_blank">腾讯视频官方</a>也收录了2016年1月以来的公演录播，有1080p版，文件大，画质明显较寒影的好，且连续性高，没有个人录网络直播时时有发生的断片问题（嘟嘟的千秋乐公演——2016/11/19偶像的黎明第49场——就出现了直播断片，从MC1末尾到嘟嘟的巧克力之吻中间，长达十分钟）。缺点是腾讯的水印极明显，且我看过的场次歌舞部分录音效果极差。</li>
+      </ul>
+      <hr class="skip">
+      <p>若链接失效，请<a href="mailto:zmwangx@gmail.com">联系作者</a>。若作者的评论有误，也敬请指正。</p>
+
+
+      <h2 id="technical"><a href="#contents">技术细节</a></h2>
+      <p>本站的设计默认窗口宽度大于等于1000像素，部分字体、按键很小，且有部分功能须悬浮或快捷键，所以只适合在电脑上使用。作者目前并无提高移动端可用性的计划。另外，本站使用了一些较新的网络技术，所以可能无法在较旧或较落后的浏览器上运行。作者本人并不是专业网站设计师，所以只在最新版本的Google Chrome、Firefox、Safari、Opera、Microsoft Edge及Internet Explorer 11上进行了测试，无法顾及其它浏览器（特别是国内大量面向Windows的浏览器）。以下是一些本站正常运行的截图，供参考：</p>
+      <div class="screenshot-gallery clear">
+        <a href="/assets/images/screenshots/01-homepage.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/01-homepage-thumb.jpg" alt="01-homepage">
+        </a>
+        <a href="/assets/images/screenshots/02-homepage-audio-info.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/02-homepage-audio-info-thumb.jpg" alt="02-homepage-audio-info">
+        </a>
+        <a href="/assets/images/screenshots/03-all.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/03-all-thumb.jpg" alt="03-all">
+        </a>
+        <a href="/assets/images/screenshots/04-all-expanded-with-highlight.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/04-all-expanded-with-highlight-thumb.jpg" alt="04-all-expanded-with-highlight">
+        </a>
+        <a href="/assets/images/screenshots/05-month.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/05-month-thumb.jpg" alt="05-month">
+        </a>
+        <a href="/assets/images/screenshots/06-single-status.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/06-single-status-thumb.jpg" alt="06-single-status">
+        </a>
+        <a href="/assets/images/screenshots/07-interactions.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/07-interactions-thumb.jpg" alt="07-interactions">
+        </a>
+        <a href="/assets/images/screenshots/08-interactions-split-by-team.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/08-interactions-split-by-team-thumb.jpg" alt="08-interactions-split-by-team">
+        </a>
+        <a href="/assets/images/screenshots/09-interactions-ljr.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/09-interactions-ljr-thumb.jpg" alt="09-interactions-ljr">
+        </a>
+        <a href="/assets/images/screenshots/10-fancybox.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/10-fancybox-thumb.jpg" alt="10-fancybox">
+        </a>
+        <a href="/assets/images/screenshots/11-hotkey-cheatsheet.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/11-hotkey-cheatsheet-thumb.jpg" alt="11-hotkey-cheatsheet">
+        </a>
+        <a href="/assets/images/screenshots/12-about.png" class="fancybox" data-fancybox-group="screenshots">
+          <img src="/assets/images/screenshots/12-about-thumb.jpg" alt="12-about">
+        </a>
+      </div>
+      <p>如果您无法正常使用本站，请下载最新版本的<a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>、<a href="https://www.mozilla.org/firefox/" target="_blank">Firefox</a>或<a href="https://www.opera.com/" target="_blank">Opera</a>浏览器。如果您是专业人士并有意解决浏览器兼容性问题，请看下一段。</p>
+      <p>本站的源代码发布在<a href="https://github.com/dudubaby/source.dudubaby.org" target="_blank">GitHub</a>上。您可以在<a href="https://github.com/dudubaby/source.dudubaby.org/issues" target="_blank">issue tracker</a>上提交您发现的问题，不过作者很可能没有时间解决。最好的解决方式是提交pull request。您也可以使用本站的代码（作者本人的代码使用<a href="https://opensource.org/licenses/MIT" target="_blank">MIT/Expat</a>）或内容（作者本人的内容使用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC-BY-NC-SA 4.0</a>）制作您自己的网站；请注意保留本人的版权信息，并请尽量不要借此盈利，谢谢。</p>
+
+
+      <h2 id="changelog"><a href="#contents">更新日志</a></h2>
+      <p>2017-01-25：网站首发。</p>
+    </article>
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

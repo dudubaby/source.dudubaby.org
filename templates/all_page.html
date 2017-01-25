@@ -1,0 +1,22 @@
+{%- from '_macros.html' import info_nav_bar, status_list -%}
+
+{%- set title -%}
+全部相关状态 第{{page}}/{{total_pages}}页
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>全部相关状态</h1>
+    {%- set info -%}
+    第{{ page }}/{{ total_pages }}页（共{{ total }}条相关状态）
+    {%- endset -%}
+    {{ info_nav_bar(info, '首', first_link, '上一页', prev_link, '下一页', next_link, '尾', last_link, false)|indent(4) }}
+    <hr>
+    {{ status_list(statuses)|indent(4) }}
+    {{ info_nav_bar(info, '首', first_link, '上一页', prev_link, '下一页', next_link, '尾', last_link, true)|indent(4) }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

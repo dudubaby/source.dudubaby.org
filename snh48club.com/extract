@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+
+# snh48club.com extractor; supposed to be run after data has been
+# extracted from snhey.com, which is fed as part of the input.
+#
+# Note that data from snh48club.com has datetime down to seconds, but
+# since snhey.com is our primary (and better) data source, we have to
+# drop the seconds. It's not very important in the grand scheme of
+# things though, except when it comes to the ordering of comments. There
+# we have to deal with it.
+
+import datetime
+import difflib
+import html
+import json
+import os
+import re
+import sys
+import urllib.parse
+
+import bs4
+import peewee
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+sys.path[:0] = [os.path.dirname(HERE)]
+
+import initdb
+import weibo_emojis
+from extractor_utils import *
+from schema import Comment, Member, Status, token
+
+COMMENTS_DIR = os.path.join(HERE, 'comments')
+FALSE_POSITIVES_CACHE = os.path.join(HERE, 'false_positives.json')
+FALSE_POSITIVES = {}
+
+SERVER_ADDRESS = 'http://0.0.0.0:8080'
+
+# More than two ASCII question marks -- snh48club.com scrambled some characters
+JUNK_CHARS = re.compile(r'\?{2,}')
+STATUS_DATETIME = re.compile(r'^前往微博>(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<day>[0-9]+) '
+                             r'(?P<hour>[0-9]+):(?P<minute>[0-9]+):[0-9]+评论')
+
+# EXISTING_STATUSES is a map from created_at: datetime.datetime to a
+# Status object with prefetched comments. We use this for quick lookup.
+EXISTING_STATUSES = {}
+
+def load_existing_data():
+    dudu = Member.get(Member.name == '陈怡馨')
+    statuses = dudu.statuses.order_by(Status.created_at.desc(), Status.id)
+    comments = (Comment.select(Comment, Member).join(Member)
+                .order_by(Comment.created_at, Comment.id))
+
+    # We choose to be lazy here and pretend that the created_at field of
+    # Status is unique.
+    #
+    # In practice this is a good assumption: the only
+    # dupe is 2015-07-02 08:58:00, with two statuses, but neither (and
+    # nothing else sharing this datetime) is found in the snh48club.com
+    # dataset, so it doesn't matter.
+    global EXISTING_STATUSES
+    EXISTING_STATUSES = {st.created_at: st for st in peewee.prefetch(statuses, comments)}
+
+def load_false_postives():
+    global FALSE_POSITIVES
+    if os.path.isfile(FALSE_POSITIVES_CACHE):
+        with open(FALSE_POSITIVES_CACHE) as fp:
+            FALSE_POSITIVES = json.load(fp)
+
+def flatten_comment(s):
+    soup = bs4.BeautifulSoup(s, 'html.parser')
+    for img in soup.find_all('img'):
+        img.replace_with(img.get('alt'))
+    return soup.text
+
+def is_false_positive(status, comment):
+    commenter, created_at, body = comment
+    comment_serialized = f'{created_at} {commenter}: {flatten_comment(body)}'
+    if comment_serialized in FALSE_POSITIVES:
+        return FALSE_POSITIVES[comment_serialized]
+
+    # Ask
+    print(f'Found dubious comment:')
+    print(f'From status on {status.created_at}')
+    if SERVER_ADDRESS:
+        status_url = urllib.parse.urljoin(SERVER_ADDRESS, f'/status/{token(status)}')
+        print(status_url)
+    print(comment_serialized)
+    yn = input('New? [yN] ')
+    FALSE_POSITIVES[comment_serialized] = not yn.startswith(('y', 'Y'))
+    print()
+    persist_false_postives()
+    return FALSE_POSITIVES[comment_serialized]
+
+def persist_false_postives():
+    if not FALSE_POSITIVES_CACHE:
+        print('Not persisting because there\'s no data to persist; '
+              'something might be wrong!')
+        return
+    with open(FALSE_POSITIVES_CACHE, 'w') as fp:
+        json.dump(FALSE_POSITIVES, fp, ensure_ascii=False, sort_keys=True, indent=2)
+
+def strip_boilerplate_markup(s):
+    s = s.replace('<a data-canonical-href="', '')
+    s = s.replace('target="_blank"', '')
+    s = s.replace('<img alt=', '')
+    s = s.replace('src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/', '')
+    s = s.replace('<span class="name"><a href="/interactions/', '')
+    return s
+
+def longest_match_length(s1, s2):
+    s1 = strip_boilerplate_markup(s1)
+    s2 = strip_boilerplate_markup(s2)
+    return (difflib.SequenceMatcher(a=s1, b=s2, autojunk=False)
+            .find_longest_match(0, len(s1), 0, len(s2)).size)
+
+def load_comments(data_id):
+    with open(os.path.join(COMMENTS_DIR, f'{data_id}.json')) as fp:
+        return json.load(fp)['List']
+
+def strip_junk_chars(s):
+    return JUNK_CHARS.sub('', s)
+
+def transform_status_text(s):
+    s = strip_junk_chars(s)
+    s = weibo_emojis.transform(s)
+    s = transform_at_mentions(s)
+    s = transform_tcn_shortlinks(s)
+    s, url = parse_complete_status_link(s)
+    return s.strip(), url
+
+def transform_comment_text(s):
+    s = strip_junk_chars(s)
+    s = weibo_emojis.transform(s)
+    s = transform_at_mentions(s)
+    s = transform_tcn_shortlinks(s)
+    return s.strip()
+
+def insert_potential_new_comment(existing_status, existing_comments, comment):
+    commenter, created_at, body = comment
+    if commenter in existing_comments:
+        # Sometimes the comment timestamps differ by one minute on
+        # snh48club.com and snhey.com.
+        #
+        # Also, snh48club.com sometimes strips Unicode emojis from
+        # comments, and sometimes just replace them with question
+        # marks... Just great...
+        #
+        # Just great!
+        for existing_comment_created_at, existing_comment_body in existing_comments[commenter]:
+            # Try to strip code points above U+1F300, which should be
+            # emojis and (hopefully) shouldn't appear in snh48club.com's
+            # version
+            #
+            # (UT++1F300 is the starting code point in the Miscellaneous
+            # Symbols and Pictographs block; see
+            # http://www.unicode.org/charts/nameslist/ )
+            existing_comment_body = ''.join(ch for ch in existing_comment_body if ord(ch) < 0x1F300)
+            if ((existing_comment_body == body or
+                 longest_match_length(existing_comment_body, body) >= 10) and
+                abs((existing_comment_created_at - created_at).total_seconds()) <= 60):
+                # Comment already exists
+                return
+    if not is_false_positive(existing_status, comment):
+        commenter_instance, _ = Member.get_or_create(name=commenter)
+        Comment.create(
+            status=existing_status,
+            commenter=commenter_instance,
+            created_at=created_at,
+            body=body,
+        )
+
+def parse(htmldoc):
+    soup = bs4.BeautifulSoup(htmldoc, 'html.parser')
+    dudu = Member.get(Member.name == '陈怡馨')
+    for weibo in soup.select('.weibo'):
+        m = STATUS_DATETIME.match(weibo.select('.time')[0].text)
+        g = lambda name: int(m.group(name))
+        status_body, status_complete_link = transform_status_text(
+            html.escape(weibo.select('.wb_text')[0].text))
+        status_datetime = datetime.datetime(g('year'), g('month'), g('day'),
+                                            g('hour'), g('minute'))
+        status_images = [os.path.basename(img.get('src')) for img in weibo.select('.imgs img')]
+        # No reposts on snh48club.com (I looked through all 38 pages)
+        comments_data = load_comments(weibo.select('.btnShowComment')[0].get('data-id'))
+        comments = []
+        # Comment image not available on snh48club.com
+        for comment_data in comments_data:
+            commenter = comment_data['MemberName']
+            comment_datetime = datetime.datetime.strptime(
+                comment_data['PubDate'][:-3],  # Drop :SS at the end
+                '%Y-%m-%dT%H:%M',
+            )
+            comment_text = transform_comment_text(comment_data['Text'])
+            comments.append((commenter, comment_datetime, comment_text))
+
+        if status_datetime in EXISTING_STATUSES:
+            existing_status = EXISTING_STATUSES[status_datetime]
+            # Some higher code points (e.g. emojis) have been turned into
+            # question marks in statuses before 2015/03. This leads to some
+            # annoying false mismatches. As such, we count two statues as
+            # identical if they share the same datetime, then either have
+            # identical bodies or have a common substring of 15 chars or
+            # more, which will exclude all the false mismatches (trust me,
+            # I've examined all the mismatches).
+            if (existing_status.body != status_body and
+                longest_match_length(existing_status.body, status_body) < 15):
+                # Normally we would need to handle the conflict
+                # (preferably with human confirmation) and insert a
+                # fresh status here, but field tests have shown that
+                # this block is never run, so I didn't bother to write
+                # it.
+                pass
+
+            existing_comments = {}
+            for c in existing_status.comments_prefetch:
+                existing_comments.setdefault(c.commenter.name, []).append((c.created_at, c.body))
+            for comment in comments:
+                insert_potential_new_comment(existing_status, existing_comments, comment)
+        else:
+            status_instance = Status.create(
+                author=dudu,
+                created_at=status_datetime,
+                body=status_body,
+                complete_link=status_complete_link,
+                images=' '.join(status_images),
+            )
+            for commenter, comment_created_at, comment_body in comments:
+                commenter_instance, _ = Member.get_or_create(name=commenter)
+                comment_instance = Comment.create(
+                    status=status_instance,
+                    commenter=commenter_instance,
+                    created_at=comment_created_at,
+                    body=comment_body,
+                )
+
+def main():
+    load_existing_data()
+    load_false_postives()
+    for index in range(1, 39):
+        filename = f'{index:02d}.html'
+        print(f'Extracting from {filename}...')
+        path = os.path.join(HERE, 'pages', filename)
+        with open(path) as fp:
+            parse(fp.read())
+
+if __name__ == '__main__':
+    main()

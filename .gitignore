@@ -1,0 +1,6 @@
+*build/
+*.db
+*.bak
+__pycache__
+conf*.yml
+!*.com

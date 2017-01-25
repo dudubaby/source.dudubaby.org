@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+here=$0:A:h
+mkdir -p $here/large $here/thumb180
+unset WGETRC
+export HOME=$(mktemp -d) # Use an empty HOME to avoid WGETRC being set and loaded
+<$here/images.txt parallel -j8 -X -n20 -q --line-buffer --bar wget -c -nv -P $here/large 'http://ww1.sinaimg.cn/large/{}'
+<$here/images.txt parallel -j8 -X -n20 -q --line-buffer --bar wget -c -nv -P $here/thumb180 'http://ww1.sinaimg.cn/thumb180/{}'

@@ -1,0 +1,44 @@
+#!/usr/bin/env zsh
+
+setopt errexit
+
+# NOT supposed to be called manually.
+# Use ./build in the root directory instead.
+
+[[ -n $DEBUG ]] && setopt xtrace
+
+confyml=$1
+builddir=$2
+local_images=$3 # 1 or 0
+
+here=$0:A:h
+root=${${:-$here/..}:A}
+assetsdir=$builddir/assets
+mkdir -p $assetsdir
+
+print_progress () print -R $'\e[32m'"$*"$'\e[0m' >&2
+
+print_progress 'Generating HTML...'
+if [[ -n $PYTHON ]]; then
+    # Use the specified Python
+    $PYTHON $root/generate $confyml
+else
+    $root/generate $confyml
+fi
+
+for f in bower_components favicon.ico; do
+    [[ -h $builddir/$f ]] || rm -rf $builddir/$f
+done
+
+for f in images audio data js css; do
+    [[ -h $assetsdir/$f ]] || rm -rf $assetsdir/$f
+done
+
+(( local_images )) && image_source_dir=_ship || image_source_dir=_ship-sina
+ln -sfT $root/images/$image_source_dir $assetsdir/images
+ln -sfT $root/audio/_ship $assetsdir/audio
+ln -sfT $root/data/_ship $assetsdir/data
+ln -sfT $root/bower_components $builddir/bower_components
+ln -sfT $root/js $assetsdir/js
+ln -sfT $root/css $assetsdir/css
+ln -sfT $root/images/favicon.ico $builddir/favicon.ico

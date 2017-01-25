@@ -1,0 +1,23 @@
+{%- from '_macros.html' import info_nav_bar, status_list -%}
+
+{%- set title -%}
+与{{ name }}的互动
+{%- endset -%}
+{%- set show_comments = True -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>与<span class="badged-name {{ name|team }}">{{ name }}的互动</span></h1>
+    {%- set info -%}
+    {{ statuses|length }}条相关状态
+    {%- endset -%}
+    {{ info_nav_bar(info, prev_text='全部成员', prev_link='/interactions/')|indent(4) }}
+    <hr>
+    {{ status_list(statuses, show_comments=True)|indent(4) }}
+    {{ info_nav_bar(info, prev_text='全部成员', prev_link='/interactions/', back_to_top=true)|indent(4) }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

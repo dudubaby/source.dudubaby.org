@@ -1,0 +1,20 @@
+{%- from '_macros.html' import info_nav_bar, status_entry -%}
+
+{%- set title -%}
+状态 {{ status.created_at.strftime('%Y年%-m月%-d日') }}
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    {%- set info_nav_bar_ = info_nav_bar(info, '首', first_link, '上一条', prev_link, '下一条', next_link, '尾', last_link)|indent(4) %}
+    {{ info_nav_bar_ }}
+    <hr>
+    {{ status_entry(status, show_comments=True)|indent(4) }}
+    <hr>
+    {{ info_nav_bar_ }}
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

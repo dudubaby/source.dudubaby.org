@@ -1,0 +1,12 @@
+Jinja2==2.8.1
+PyYAML==3.12
+bs4==0.0.1
+django-htmlmin==0.10.0
+peewee==2.8.5
+requests==2.12.4
+## The following requirements were added by pip freeze:
+beautifulsoup4==4.5.3
+html5lib==0.999999999
+MarkupSafe==0.23
+six==1.10.0
+webencodings==0.5

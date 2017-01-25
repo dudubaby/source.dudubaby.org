@@ -1,0 +1,7 @@
+Jinja2
+PyYAML
+bs4
+django-htmlmin
+lxml
+peewee
+requests

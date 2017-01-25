@@ -1,0 +1,40 @@
+# Whether build the site for production. Determines whether JS and CSS
+# are concatenated and minimized, and whether HTML files are minimized;
+# defaults to false
+production: false
+
+# Site prefix, only used in robots.txt and the sitemap; defaults to
+# https://dudubaby.org
+site_prefix: https://dudubaby.org
+
+# Database path relative to root; defaults to data/weibo-data.sqlite3
+database: data/weibo-data.sqlite3
+
+# Site root (that is, the directory to place generated HTML files)
+# relative to here; defaults to _build
+buildpath: _build
+
+# Image source, either local (images/) or sina (ww*.sinaimg.cn);
+# defaults to local
+image_source: local
+
+# Alternative site with a different image source; defaults to
+# https://cn.dudubaby.org
+alt_site: https://cn.dudubaby.org
+
+# Number of statuses per page on all/*; defaults to 50
+statuses_per_page: 50
+
+# Whether to enable Google Analytics; defaults to false
+# If true, a working ga_tracking_id is required
+enable_ga: false
+
+# Google Analytics tracking ID 'UA-XXXXXXXX-Y'; optional
+ga_tracking_id: 'UA-XXXXXXXX-Y'
+
+# Allow search engines to crawl the site; defaults to true
+allow_crawlers: true
+
+# Required for extracting images in comments; defaults to '' (doesn't
+# work)
+weibo_cookie: ''

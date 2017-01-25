@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+here=$0:A:h
+pagesdir=$here/pages
+mkdir -p $pagesdir
+for i in {1..38}; do
+    url=http://www.snh48club.com/dongtai/member53/$i
+    localpath=$pagesdir/${(l:2::0:)i}.html
+    echo $url
+    wget -c -O $localpath $url
+done

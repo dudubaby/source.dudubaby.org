@@ -1,0 +1,19 @@
+{%- from '_macros.html' import info_nav_bar -%}
+
+{%- set title -%}
+与{{ name }}的互动
+{%- endset -%}
+{%- set show_comments = True -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>与<span class="badged-name {{ name|team }}">{{ name }}的互动</span></h1>
+    {{ info_nav_bar('0条相关状态', prev_text='全部成员', prev_link='/interactions/')|indent(4) }}
+    <hr>
+    <p class="center">没有微博互动 :(</p>
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

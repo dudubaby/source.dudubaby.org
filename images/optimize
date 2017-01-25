@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+print -l olarge/*.jpg | parallel --bar -q -j8 mogrify -resize '1440x900>'
+print -l olarge/*.jpg | parallel --bar -q -j8 jpegtran -copy none -optimize -progressive -outfile '{}' '{}'

@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import os
+import sys
+import urllib.parse
+
+import bs4
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+DEFAULT_ROOT = os.path.join(os.path.dirname(HERE), '_build')
+logging.basicConfig(format='[%(name)s] %(levelname)s: %(message)s')
+logger = logging.getLogger('audit')
+
+def audit_no_external_link_without_target_blank(soup, path):
+    for a in soup.find_all('a'):
+        if not a.has_attr('href'):
+            continue
+        if '//' not in a.get('href'):
+            continue
+        if not a.has_attr('target') or a.get('target') != '_blank':
+            logger.warn(f'{path}: found external link without target=_blank: {a}')
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('root', nargs='?', default=DEFAULT_ROOT)
+    args = parser.parse_args()
+    sitemap = os.path.join(args.root, 'sitemap.txt')
+    if not os.path.isfile(sitemap):
+        logger.error(f'{sitemap} not found')
+        sys.exit(1)
+    with open(sitemap) as sm:
+        for line in sm:
+            path = urllib.parse.unquote(urllib.parse.urlparse(line.strip()).path)[1:]
+            if not path or path.endswith('/'):
+                path += 'index.html'
+            elif not path.endswith('.html'):
+                path += '.html'
+            abspath = os.path.join(args.root, path)
+            if not os.path.isfile(abspath):
+                logger.error(f'{abspath} not found')
+                continue
+            with open(abspath) as fp:
+                soup = bs4.BeautifulSoup(fp.read(), 'html.parser')
+                audit_no_external_link_without_target_blank(soup, abspath)
+
+if __name__ == '__main__':
+    main()

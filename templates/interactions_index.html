@@ -1,0 +1,38 @@
+{%- from '_macros.html' import info_nav_bar, status_list -%}
+
+{%- set title -%}
+成员互动
+{%- endset -%}
+
+{%- macro member_list(interactions_count) -%}
+<ul class="multicol">
+  {%- for name, count in interactions_count %}
+  <li><a href="/interactions/{{ name }}"><span class="badged-name {{ name|team }}">{{ name }}</span> ({{ count }}条)</a></li>
+  {%- endfor %}
+</ul>
+{%- endmacro -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    <div id="team-split-view" class="mixed">
+      <div id="team-split-view-toggler">
+        <span id="mixed-button">混合显示</span>
+        <span id="split-button">分队显示</span>
+      </div>
+      <div id="mixed-view">
+        {{ member_list(interactions_count)|indent(8) }}
+      </div>
+      <div id="split-view">
+        {%- for team in teams %}
+        <h2 id="{{ team.id }}" class="team-title">{{ team.title }}</h2>
+        {{ member_list(team.interactions_count)|indent(8) }}
+        {%- endfor %}
+      </div>
+    </div>
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

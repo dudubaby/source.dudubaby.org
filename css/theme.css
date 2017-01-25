@@ -1,0 +1,733 @@
+/*! dudubaby.org | theme.css v1.0 | MIT/Expat */
+
+/**
+ * Basic layout based on holy-grail.css from solved-by-flexbox https://git.io/vMCoe
+ * (including th IE11 fix).
+ */
+
+html {
+    height: 100%;
+}
+
+body {
+    background: #fde8ce;
+    font-family: "Times New Roman", Times, "Songti SC", SimSun, serif;
+    font-size: 16px;
+    line-height: 1.3;
+    margin: 0;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    /**
+     * Force vertical scrollbar so our toplevel containers laid out
+     * around the center won't jump around when the scrollbar appears or
+     * disappears.
+     */
+    overflow-y: scroll;
+}
+
+.content, footer {
+    width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content {
+    margin-top: 55px;
+    flex: 1 0 auto;
+}
+
+footer {
+    flex: none;
+    padding: 20px 0 20px 0;
+    text-align: center;
+    font-size: 70%;
+    color: #888;
+}
+
+h1 {
+    text-align: center;
+    font-size: 140%;
+}
+
+h2 {
+    font-size: 110%;
+}
+
+h2.team-title {
+    margin: 1em 0 0.5em 0.7em;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: solid 1px;
+}
+
+footer a {
+    border-bottom: none;
+    text-decoration: underline;
+}
+
+h2 a {
+    border-bottom: none;
+}
+
+img {
+    vertical-align: middle;
+}
+
+hr {
+    margin: 0 10px;
+    border: 0;
+    border-top: 1px solid #fbc583;
+}
+
+#help {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+#help a {
+    border-bottom: none;
+}
+
+#help img {
+    height: 16px;
+    width: 16px;
+}
+
+article {
+    padding: 0 10px;
+    text-align: justify;
+    /* Fix justification on MS Edge (auto justification is horrible) */
+    text-justify: distribute;
+}
+
+article p {
+    margin: 0.3em 0;
+    text-indent: 2em;
+}
+
+article ul {
+    margin: 0.3em 0;
+    padding: 0;
+    list-style: none;
+}
+
+article > ul > li {
+    margin: 0.3em 0;
+    text-indent: 2em;
+}
+
+article hr.skip {
+    visibility: hidden;
+}
+
+.intro {
+    margin: 10px;
+    text-align: justify;
+    text-justify: distribute;
+}
+
+#noscript-alert, #loading-top, #ga-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80%;
+}
+
+#noscript-alert {
+    font-weight: bold;
+    color: red;
+}
+
+#loading-top, #ga-alert {
+    color: #888;
+}
+
+#loading-center {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 120%;
+}
+
+.nav {
+    position: fixed;
+    left: calc(50% - 490px);
+    top: 55px;
+    width: 150px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.nav-right {
+    position: fixed;
+    left: calc(50% + 340px);
+    top: 310px;
+    width: 150px;
+    font-size: 16px;
+    text-align: center;
+    color: #fbc583;
+}
+
+.nav div, .nav-right div {
+    margin: 3px;
+}
+
+.nav a, .nav-right a {
+    border-bottom: none;
+}
+
+.nav > div:hover, .nav-right > div:hover {
+    cursor: pointer;
+    color: #f8941d;
+}
+
+.menu ul {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 2px auto;
+    list-style-type: none;
+    font-size: 13px;
+    color: #000;
+}
+
+.menu ul li {
+    margin: 3px 0;
+}
+
+.menu ul li:hover {
+    color: #f8941d;
+}
+
+#logo {
+    width: 150px;
+    height: 210px;
+    margin-bottom: 45px;
+}
+
+#teamh2-logo {
+    width: 50px;
+    margin-top: 45px;
+}
+
+#audio-control, #audio-info {
+    margin: 0 -1px;
+}
+
+#audio-control:before, #audio-info:before {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    content: "";
+}
+
+#audio-control.paused:before {
+    background-image: url("/assets/images/play-circle.svg");
+}
+
+#audio-control.playing:before {
+    background-image: url("/assets/images/pause-circle.svg");
+}
+
+#audio-info:before {
+    background-image: url("/assets/images/info-circle.svg")
+}
+
+#audio-info:hover {
+    cursor: help;
+}
+
+.tooltip {
+    position: fixed;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: justify;
+}
+
+.tooltip p {
+    margin: 0;
+    padding: 0;
+    text-indent: 2em;
+}
+
+#global-comments-toggler:hover {
+    cursor: pointer;
+}
+
+.info-nav-bar {
+    padding: 5px 10px;
+    font-size: 80%;
+}
+
+.info-nav-bar-nav {
+    margin-left: 3px;
+}
+
+.clear:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.back-to-top {
+    border-bottom: solid 1px;
+}
+
+.back-to-top:hover {
+    cursor: pointer;
+}
+
+.multicol {
+    column-count: 4;
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+}
+
+ul.multicol {
+    margin: 0.5em 0;
+    list-style: none;
+    font-size: 95%;
+}
+
+ul.multicol li a {
+    border-bottom: none;
+}
+
+#month-list {
+    padding-left: 5em;
+}
+
+article li #month-list {
+    padding-left: 1.5em;
+}
+
+#team-split-view {
+    padding: 0 10px;
+}
+
+#team-split-view ul.multicol {
+    padding-left: 1em;
+}
+
+/* Note: We cannot use border-bottom here due to Chrome 55 miscalculating
+ * contain height and breaking on element border, resulting in something
+ * ridiculous like this: https://i.imgur.com/hHtF3OK.png.
+ *
+ * Fortunately the month list is completely ASCII, so underline looks fine
+ * (arguably better than solid 1px border-bottom) as opposed to cutting through
+ * Han glyphs.
+ */
+#month-list a {
+    text-decoration: underline;
+}
+
+.status {
+    padding: 5px 10px;
+}
+
+.status.focus {
+    background: #feefdd;
+    box-shadow: 0 0 2px 1px #fbc583;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.status > .name {
+    font-size: 110%;
+    margin: 3px 0;
+}
+
+.datetime {
+    font-size: 70%;
+    color: #888;
+}
+
+.name a, .datetime a {
+    border-bottom: none;
+}
+
+.complete-link {
+    font-size: 80%;
+    color: #888;
+}
+
+.complete-link a {
+    border-bottom: none;
+}
+
+.orig-post {
+    padding: 10px;
+    background: #fddcb5;
+}
+
+.status-text, .orig-post, .gallery {
+    margin: 5px 0;
+}
+
+.status-text img {
+    height: 16px;
+    position: relative;
+    top: -2px;
+}
+
+.gallery.col1 {
+    width: 122px;
+}
+
+.gallery.col2 {
+    width: 244px;
+}
+
+.gallery.col3 {
+    width: 366px;
+}
+
+#full-gallery {
+    width: 610px;
+    margin: 10px auto;
+}
+
+.gallery a {
+    float: left;
+    padding: 1px;
+    border-bottom: none;
+}
+
+.gallery img {
+    width: 120px;
+    height: 120px;
+}
+
+.screenshot-gallery {
+    margin: 1em 0;
+}
+
+.screenshot-gallery a {
+    float: left;
+    margin: 2px;
+    padding: 1px;
+    border-bottom: none;
+    background: #fbc583;
+}
+
+.screenshot-gallery img {
+    width: 144px;
+    height: 90px;
+}
+
+.comment-image {
+    margin: 3px 0;
+}
+
+.comment-image a {
+    border-bottom: none;
+}
+
+.comment-image img {
+    height: 60px;
+    width: 60px;
+}
+
+.gallery img, .comment-image {
+    /* Color of the rectangle when the image is still loading or for some
+     * reason cannot be loaded; also, hide alt text by making it the
+     * same color.
+     */
+    color: #fbd19d;
+    background: #fbd19d;
+}
+
+.gif-container {
+    position: relative;
+    display: inline-block;
+}
+
+.gif-indicator {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.comments-toggler {
+    display: inline-block;
+    margin: 3px 0;
+    font-size: 70%;
+}
+
+.comments-toggler.off:before {
+    content: "\25ba";
+}
+
+.comments-toggler.on:before {
+    content: "\25bc";
+}
+
+.comments-toggler:hover {
+    cursor: pointer;
+}
+
+.comments {
+    padding: 3px 5px 1px 5px;
+    margin: 3px 0;
+    background: #fcd19c;
+    font-size: 80%;
+}
+
+.comment {
+    margin: 3px 0;
+}
+
+.comment-text img {
+    height: 13px;
+    position: relative;
+    top: -1px;
+}
+
+.center {
+    text-align: center;
+}
+
+a.fancybox-close {
+    border-bottom: none;
+}
+
+.fancybox-title.fancybox-title-outside-wrap a {
+    color: #aaa;
+    border-bottom: none;
+    margin-right: 0.5em;
+}
+
+#team-split-view-toggler {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 80%;
+    color: #888;
+}
+
+#mixed-button, #split-button {
+    margin: 0 5px;
+}
+
+#team-split-view.mixed #split-button,
+#team-split-view.split #mixed-button {
+    border-bottom: solid 1px;
+}
+
+#team-split-view.mixed #split-button:hover,
+#team-split-view.split #mixed-button:hover {
+    cursor: pointer;
+}
+
+#team-split-view.mixed #split-view,
+#team-split-view.split #mixed-view {
+    display: none;
+}
+
+.badged-name:before {
+    display: inline-block;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    content: "";
+}
+
+#team-split-view .badged-name:before {
+    width: 21px;
+    height: 17px;
+    background-size: 16px 16px;
+}
+
+h1 .badged-name {
+    margin-left: 2px;
+}
+
+h1 .badged-name:before {
+    width: 22px;
+    height: 24px;
+    background-size: 20px 20px;
+}
+
+.badged-name.s2:before {
+    background-image: url("/assets/images/badge-s2.png")
+}
+
+.badged-name.n2:before {
+    background-image: url("/assets/images/badge-n2.png")
+}
+
+.badged-name.h2:before {
+    background-image: url("/assets/images/badge-h2.png")
+}
+
+.badged-name.x:before {
+    background-image: url("/assets/images/badge-x.png")
+}
+
+.badged-name.x2:before {
+    background-image: url("/assets/images/badge-x2.png")
+}
+
+.badged-name.b:before {
+    background-image: url("/assets/images/badge-b.png")
+}
+
+.badged-name.e:before {
+    background-image: url("/assets/images/badge-e.png")
+}
+
+.badged-name.g:before {
+    background-image: url("/assets/images/badge-g.png")
+}
+
+.badged-name.n3:before {
+    background-image: url("/assets/images/badge-n3.png")
+}
+
+.badged-name.teamless:before {
+    background-image: url("/assets/images/badge-teamless.png")
+}
+
+.highlight-s2 {
+    background: #90d2f5;
+}
+
+.highlight-n2 {
+    /* Official color #9e57b4 with 30% transparency */
+    background: rgba(158, 87, 180, 0.7);
+}
+
+.highlight-h2 {
+    /* Official color #f8941d with 30% transparency */
+    background: rgba(248, 148, 29, 0.7);
+}
+
+.highlight-x {
+    background: #a3cd43;
+}
+
+.highlight-x2 {
+    /* Official color #03c070 with 20% transparency */
+    background: rgba(3, 192, 112, 0.8);
+}
+
+.highlight-b {
+    background: #f79fb8;
+}
+
+.highlight-e {
+    background: #60dbd8;
+}
+
+.highlight-g {
+    background: #abca11;
+}
+
+.highlight-n3 {
+    background: #ffe249;
+}
+
+.highlight-teamless {
+    background: #ddd;
+}
+
+#page-cover {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0.5;
+    z-index: 50;
+}
+
+#cheatsheet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 750px;
+    background: #fde8ce;
+    opacity: 0.9;
+    z-index: 100;
+    border: 10px solid #fde8ce;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#cheatsheet h2 {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#cheatsheet .footnote {
+    margin: 5px 0;
+    font-size: 70%;
+    color: #888;
+}
+
+table.keybindings {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 15px 7px;
+}
+
+td.keys, td.desc {
+    padding: 0;
+    vertical-align: top;
+}
+
+td.keys {
+    width: 110px;
+    text-align: right;
+}
+
+td.desc {
+    width: 235px;
+    text-align: left;
+}
+
+code {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 90%;
+}
+
+kbd {
+    display: inline-block;
+    vertical-align: top;
+    padding: 1px 5px 2px 5px;
+    line-height: 15px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: inset 0 -1px 0 #bbb;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 80%;
+}

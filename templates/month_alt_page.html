@@ -1,0 +1,18 @@
+{%- set title -%}
+{{ year }}年{{ month }}月
+{%- endset -%}
+
+{%- set canonical -%}
+/{{ year }}/{{ '%02d' % month }}
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    <a href="{{ canonical }}" id="loading-center">跳转至{{ canonical }}……</a>
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}

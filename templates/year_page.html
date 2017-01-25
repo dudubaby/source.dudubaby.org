@@ -1,0 +1,18 @@
+{%- set title -%}
+{{ year }}年
+{%- endset -%}
+
+{% include '_header.html' %}
+  <main class="content">
+    <h1>{{ title }}</h1>
+    <ul id="month-list" class="multicol">
+      {%- for month, link in months %}
+      <li><a href="{{ link }}">{{ month }}</a></li>
+      {%- endfor %}
+    </ul>
+  </main>
+{% include '_footer.html' %}
+
+{#- Local Variables: -#}
+{#- mode: jinja2 -#}
+{#- End: -#}
